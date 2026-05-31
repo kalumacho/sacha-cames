@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacha Cames — Manager & Consultant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; }
+
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --orange: #FF6B00;
+      --orange-light: #FF8C35;
+      --orange-dim: rgba(255,107,0,0.12);
+      --orange-glow: rgba(255,107,0,0.32);
+      --green: #00C896;
+      --green-light: #00E5AA;
+      --green-dim: rgba(0,200,150,0.1);
+      --green-glow: rgba(0,200,150,0.28);
+      --white: #FFFFFF;
+      --gray: #777;
+      --gray-light: #CCCCCC;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,107,0,0.35);
+      --radius: 18px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ============================================================
+       LANGUAGE SWITCHER
+    ============================================================ */
+    .lang-switcher {
+      position: fixed;
+      top: 22px;
+      right: 28px;
+      z-index: 9999;
+      display: flex;
+      gap: 4px;
+      background: rgba(8,8,8,0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 5px 8px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      font-size: 17px;
+      opacity: 0.35;
+      transition: opacity 0.22s, transform 0.22s;
+      padding: 2px 4px;
+      line-height: 1;
+      border-radius: 50%;
+    }
+    .lang-btn:hover { opacity: 0.75; }
+    .lang-btn.active { opacity: 1; transform: scale(1.18); }
+
+    /* ============================================================
+       SECTION 1 — HERO VIDEO
+    ============================================================ */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 580px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.85) 100%);
+      z-index: 1;
+    }
+    .hero-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 36px 48px;
+      width: 100%;
+    }
+    .hero-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(22px, 3.2vw, 44px);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .hero-name .first { color: #fff; }
+    .hero-name .last {
+      background: linear-gradient(90deg, var(--orange), var(--orange-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-center {
+      position: absolute;
+      left: 50%;
+      top: 36px;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-email {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(12px, 1.2vw, 15px);
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      padding-bottom: 5px;
+    }
+    .hero-bottom {
+      position: relative;
+      z-index: 2;
+      padding: 0 48px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero-tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(12px, 1.4vw, 16px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      font-weight: 400;
+    }
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.5;
+    }
+    .hero-scroll-line {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, var(--orange), transparent);
+    }
+    .hero-scroll-text {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .scroll-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ============================================================
+       SECTION 2 — ABOUT
+    ============================================================ */
+    #about {
+      position: relative;
+      padding: 130px 48px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 90% 25%, var(--orange-glow) 0%, transparent 52%),
+        radial-gradient(ellipse at 10% 75%, var(--green-glow) 0%, transparent 48%);
+      z-index: 0;
+    }
+    .about-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 80px;
+      align-items: center;
+    }
+    .section-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(34px, 4.5vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 36px;
+      background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .about-bio {
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.68);
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+    .about-motto {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--orange-light);
+      border-left: 2px solid var(--orange);
+      padding-left: 20px;
+      margin: 32px 0 20px;
+      line-height: 1.55;
+    }
+    .about-cta {
+      font-size: 15px;
+      color: var(--green);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .lang-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 36px;
+    }
+    .lang-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--gray-light);
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+    }
+    .lang-badge .level {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .about-photo-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .about-photo {
+      width: 260px;
+      height: 320px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,107,0,0.2);
+      box-shadow:
+        0 0 50px rgba(255,107,0,0.15),
+        0 40px 80px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #0f0f0f 0%, #1c1c1c 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .photo-placeholder .initials {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 72px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .photo-placeholder .hint {
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 0.1em;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    /* ============================================================
+       SECTION 3 — EXPERIENCE
+    ============================================================ */
+    #experience {
+      position: relative;
+      padding: 130px 48px;
+      overflow: hidden;
+    }
+    #experience::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 20%, var(--green-glow) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 75%, var(--orange-glow) 0%, transparent 48%);
+      z-index: 0;
+    }
+    .exp-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-header {
+      margin-bottom: 72px;
+    }
+
+    /* Career timeline bar */
+    .career-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 80px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .career-bar::-webkit-scrollbar { display: none; }
+    .career-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 100px;
+      position: relative;
+    }
+    .cn-year {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .cn-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,107,0,0.25);
+      border: 2px solid rgba(255,107,0,0.4);
+      position: relative;
+      z-index: 2;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .career-node:hover .cn-dot { transform: scale(1.4); box-shadow: 0 0 12px var(--orange-glow); }
+    .cn-role {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      margin-top: 10px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .career-node.hl .cn-dot {
+      background: var(--orange);
+      border-color: rgba(255,107,0,0.5);
+      box-shadow: 0 0 20px var(--orange-glow), 0 0 40px rgba(255,107,0,0.15);
+      width: 18px;
+      height: 18px;
+    }
+    .career-node.hl .cn-role { color: var(--orange); font-weight: 700; }
+    .career-node.curr .cn-dot {
+      background: var(--green);
+      border-color: rgba(0,200,150,0.5);
+      box-shadow: 0 0 20px var(--green-glow), 0 0 40px rgba(0,200,150,0.15);
+      width: 22px;
+      height: 22px;
+      animation: currentPulse 2.5s infinite;
+    }
+    .career-node.curr .cn-role { color: var(--green); font-weight: 700; }
+    .career-node.curr .cn-year { color: var(--green); }
+    @keyframes currentPulse {
+      0%, 100% { box-shadow: 0 0 20px var(--green-glow), 0 0 40px rgba(0,200,150,0.15); }
+      50% { box-shadow: 0 0 32px rgba(0,200,150,0.6), 0 0 60px rgba(0,200,150,0.2); }
+    }
+    .career-connector {
+      flex: 1;
+      height: 2px;
+      min-width: 40px;
+      max-width: 100px;
+      background: linear-gradient(to right, rgba(255,107,0,0.3), rgba(255,107,0,0.5));
+      position: relative;
+      top: -14px;
+    }
+    .career-connector.active {
+      background: linear-gradient(to right, rgba(255,107,0,0.7), var(--orange));
+      box-shadow: 0 0 8px rgba(255,107,0,0.3);
+    }
+    .career-connector.evolving {
+      background: linear-gradient(to right, var(--orange), var(--green));
+      box-shadow: 0 0 12px rgba(0,200,150,0.25);
+    }
+
+    /* Experience cards */
+    .exp-cards { display: flex; flex-direction: column; gap: 28px; }
+    .exp-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 44px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+    }
+    .exp-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 4px 60px rgba(255,107,0,0.06), 0 0 0 1px rgba(255,107,0,0.08);
+      transform: translateY(-2px);
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--orange) 0%, rgba(255,107,0,0.1) 60%, transparent 100%);
+    }
+    .exp-card.green-top::before {
+      background: linear-gradient(to right, var(--green) 0%, rgba(0,200,150,0.1) 60%, transparent 100%);
+    }
+    .exp-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+    .exp-role {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(20px, 2.4vw, 28px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    .exp-badge {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: var(--orange-dim);
+      border: 1px solid rgba(255,107,0,0.25);
+      border-radius: 20px;
+      padding: 3px 12px;
+      margin-bottom: 10px;
+    }
+    .exp-card.green-top .exp-badge {
+      color: var(--green);
+      background: var(--green-dim);
+      border-color: rgba(0,200,150,0.25);
+    }
+    .exp-company {
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .exp-period {
+      font-size: 12px;
+      color: var(--orange);
+      margin-top: 5px;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .exp-card.green-top .exp-period { color: var(--green); }
+    .exp-logos {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 22px;
+    }
+    .exp-logo {
+      height: 44px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+    .exp-logo-invert { filter: none; opacity: 0.9; }
+    .exp-logo-keep { opacity: 1; }
+    .exp-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.58);
+      margin-bottom: 32px;
+      max-width: 700px;
+    }
+    .exp-kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+    }
+    .kpi {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .exp-card:hover .kpi { border-color: rgba(255,107,0,0.15); }
+    .exp-card.green-top:hover .kpi { border-color: rgba(0,200,150,0.15); }
+    .kpi-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(22px, 2.5vw, 28px);
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1.1;
+      margin-bottom: 7px;
+    }
+    .exp-card.green-top .kpi-val { color: var(--green); }
+    .kpi-lbl {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.45;
+    }
+    .bayard-logo-text {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #003A8C;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .bayard-logo-text svg { flex-shrink: 0; }
+
+    /* ============================================================
+       SECTION 4 — CREATIONS
+    ============================================================ */
+    #creations {
+      position: relative;
+      padding: 130px 48px;
+      overflow: hidden;
+    }
+    #creations::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% -10%, var(--orange-glow) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 90%, var(--green-glow) 0%, transparent 45%);
+      z-index: 0;
+    }
+    .creations-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .creations-intro {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(16px, 2.2vw, 26px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 72px;
+      line-height: 1.6;
+    }
+    .creations-intro strong { color: #fff; font-weight: 700; }
+
+    .creations-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .creation-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.45s var(--ease), border-color 0.35s, box-shadow 0.45s var(--ease);
+      display: block;
+    }
+    .creation-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255,107,0,0.35);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.55), 0 0 30px rgba(255,107,0,0.07);
+    }
+    .creation-card.coming {
+      border-style: dashed;
+      border-color: rgba(255,255,255,0.1);
+      cursor: default;
+    }
+    .creation-card.coming:hover {
+      transform: none;
+      border-color: rgba(0,200,150,0.25);
+      box-shadow: 0 0 30px rgba(0,200,150,0.05);
+    }
+    .card-shot {
+      width: 100%;
+      height: 198px;
+      overflow: hidden;
+      position: relative;
+      background: #080808;
+    }
+    .card-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.55s var(--ease);
+    }
+    .creation-card:hover .card-shot img { transform: scale(1.06); }
+    .card-coming-ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #090909, #151515);
+      font-size: 52px;
+    }
+    .card-body { padding: 26px; }
+    .card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 9px;
+    }
+    .card-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 0.04em;
+      transition: gap 0.25s;
+    }
+    .creation-card:hover .card-link { gap: 12px; }
+    .card-link-arrow { font-size: 15px; }
+    .coming-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .coming-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.8s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ============================================================
+       SECTION 5 — EDUCATION
+    ============================================================ */
+    #education {
+      position: relative;
+      padding: 130px 48px;
+      overflow: hidden;
+    }
+    #education::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 5% 50%, var(--green-glow) 0%, transparent 42%),
+        radial-gradient(ellipse at 95% 50%, var(--orange-glow) 0%, transparent 42%);
+      z-index: 0;
+    }
+    .edu-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .edu-timeline {
+      display: flex;
+      align-items: flex-start;
+      overflow-x: auto;
+      padding-bottom: 24px;
+      scrollbar-width: none;
+      gap: 0;
+      margin-top: 16px;
+    }
+    .edu-timeline::-webkit-scrollbar { display: none; }
+    .edu-item {
+      flex: 1;
+      min-width: 230px;
+      padding: 0 24px 0 0;
+      position: relative;
+    }
+    .edu-connector {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .edu-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 14px var(--orange-glow);
+      flex-shrink: 0;
+    }
+    .edu-item:nth-child(odd) .edu-dot { background: var(--orange); box-shadow: 0 0 14px var(--orange-glow); }
+    .edu-item:nth-child(even) .edu-dot { background: var(--green); box-shadow: 0 0 14px var(--green-glow); }
+    .edu-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(255,107,0,0.4), rgba(0,200,150,0.2), transparent);
+    }
+    .edu-date {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .edu-item:nth-child(even) .edu-date { color: var(--green); }
+    .edu-school {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .edu-degree {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.55;
+    }
+    .edu-city {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+
+    /* ============================================================
+       SECTION 6 — CONTACT
+    ============================================================ */
+    #contact {
+      position: relative;
+      padding: 160px 48px 80px;
+      overflow: hidden;
+      text-align: center;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(255,107,0,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 100%, rgba(0,200,150,0.1) 0%, transparent 45%);
+      z-index: 0;
+    }
+    .contact-inner {
+      position: relative;
+      z-index: 1;
+    }
+    .contact-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(52px, 10vw, 110px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 48px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.35) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: default;
+      user-select: none;
+    }
+    .contact-email-pill {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(15px, 2.2vw, 22px);
+      color: var(--orange-light);
+      letter-spacing: 0.06em;
+      border: 1px solid rgba(255,107,0,0.28);
+      padding: 16px 48px;
+      border-radius: 60px;
+      background: rgba(255,107,0,0.04);
+    }
+    .footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 100px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+    ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(44px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-left {
+      opacity: 0;
+      transform: translateX(-44px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .fade-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .fade-right {
+      opacity: 0;
+      transform: translateX(44px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .fade-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .creations-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      #about, #experience, #creations, #education, #contact { padding: 90px 24px; }
+      .hero-top, .hero-bottom { padding-left: 24px; padding-right: 24px; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .about-photo-wrap { order: -1; }
+      .about-photo { width: 200px; height: 250px; margin: 0 auto; }
+      .exp-card { padding: 28px 22px; }
+      .exp-card-head { flex-direction: column; gap: 16px; }
+      .exp-kpis { grid-template-columns: repeat(2, 1fr); }
+      .creations-grid { grid-template-columns: 1fr; }
+      .edu-timeline { flex-direction: column; overflow-x: visible; gap: 40px; }
+      .edu-item { min-width: unset; padding: 0; }
+      .edu-line { display: none; }
+      .lang-switcher { top: 14px; right: 14px; }
+      .hero-center { display: none; }
+      .hero-email-mobile {
+        display: block;
+        font-size: 13px;
+        color: rgba(255,255,255,0.6);
+        letter-spacing: 0.08em;
+        margin-top: 8px;
+      }
+      .footer { flex-direction: column; gap: 8px; text-align: center; }
+      .career-bar { gap: 0; }
+      .career-node { min-width: 85px; }
+    }
+    @media (min-width: 769px) {
+      .hero-email-mobile { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-switcher">
+  <button class="lang-btn active" data-lang="en" title="English">🇬🇧</button>
+  <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+  <button class="lang-btn" data-lang="it" title="Italiano">🇮🇹</button>
+</div>
+
+<!-- ============================================================
+     SECTION 1 — HERO
+============================================================ -->
+<section id="hero">
+  <video autoplay muted loop playsinline>
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-top">
+    <div class="hero-name">
+      <span class="first">SACHA&nbsp;</span><span class="last">CAMES</span>
+      <div class="hero-email-mobile">cames.sacha@gmail.com</div>
+    </div>
+  </div>
+
+  <div class="hero-center">
+    <div class="hero-email">cames.sacha@gmail.com</div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-tagline" data-key="hero_tagline">Manager · Consultant · Builder</div>
+    <div class="hero-scroll">
+      <div class="scroll-dot"></div>
+      <div class="hero-scroll-line"></div>
+      <div class="hero-scroll-text" data-key="hero_scroll">Scroll to explore</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 2 — ABOUT
+============================================================ -->
+<section id="about">
+  <div class="about-inner">
+    <div class="fade-left">
+      <span class="section-label" data-key="about_label">Who I am</span>
+      <h2 class="section-title" data-key="about_h2">Building what's<br>missing.</h2>
+      <p class="about-bio" data-key="about_p1">I'm a multilingual manager with over five years of experience in consulting, leading high-impact international projects, organizational restructurings, and business transformation initiatives. Fluent in four languages, bilingual in French and Italian, and deeply connected to their cultures, I'm used to navigating complex, multicultural environments with both strategic vision and pragmatism.</p>
+      <p class="about-bio" data-key="about_p2">I'm driven by creativity, ambition, adaptability, and a strong sense of execution — turning ideas into concrete results.</p>
+      <blockquote class="about-motto">"Live in the future, then build what's missing."</blockquote>
+      <p class="about-cta" data-key="about_cta">Let's build it together!</p>
+      <div class="lang-badges">
+        <div class="lang-badge">🇮🇹 Italian <span class="level" data-key="native">Native</span></div>
+        <div class="lang-badge">🇫🇷 French <span class="level" data-key="native">Native</span></div>
+        <div class="lang-badge">🇬🇧 English <span class="level">C1</span></div>
+        <div class="lang-badge">🇪🇸 Spanish <span class="level">C1</span></div>
+      </div>
+    </div>
+    <div class="about-photo-wrap fade-right" style="transition-delay:0.18s">
+      <div class="about-photo">
+        <img src="assets/images/photo.png" alt="Sacha Cames">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3 — EXPERIENCE
+============================================================ -->
+<section id="experience">
+  <div class="exp-inner">
+    <div class="section-header fade-up">
+      <span class="section-label" data-key="exp_label">Career</span>
+      <h2 class="section-title" data-key="exp_title">Experience</h2>
+    </div>
+
+    <!-- Career evolution bar -->
+    <div class="career-bar fade-up" style="transition-delay:0.1s">
+      <div class="career-node">
+        <div class="cn-year">2020</div>
+        <div class="cn-dot"></div>
+        <div class="cn-role">Digital PM<br>Proprioo</div>
+      </div>
+      <div class="career-connector"></div>
+      <div class="career-node">
+        <div class="cn-year">2020</div>
+        <div class="cn-dot"></div>
+        <div class="cn-role">Chef de Projet<br>Bayard</div>
+      </div>
+      <div class="career-connector active"></div>
+      <div class="career-node">
+        <div class="cn-year">2021</div>
+        <div class="cn-dot"></div>
+        <div class="cn-role">Consultant<br>Capgemini</div>
+      </div>
+      <div class="career-connector active"></div>
+      <div class="career-node hl">
+        <div class="cn-year">2024</div>
+        <div class="cn-dot"></div>
+        <div class="cn-role">Senior Consultant<br>JS × Gireve</div>
+      </div>
+      <div class="career-connector evolving"></div>
+      <div class="career-node curr">
+        <div class="cn-year">2025 →</div>
+        <div class="cn-dot"></div>
+        <div class="cn-role">Manager<br>JS × Kering</div>
+      </div>
+    </div>
+
+    <div class="exp-cards">
+
+      <!-- Julhiet Sterwen — Manager / Kering -->
+      <div class="exp-card fade-up">
+        <div class="exp-card-head">
+          <div>
+            <div class="exp-badge">Manager</div>
+            <div class="exp-role" data-key="exp1_role">MDM Team Director</div>
+            <div class="exp-company">Julhiet Sterwen · Kering</div>
+            <div class="exp-period">Nov. 2025 → Present</div>
+          </div>
+          <div class="exp-logos">
+            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;">
+            <img src="assets/logos/kering.png" alt="Kering" class="exp-logo exp-logo-invert" style="height:38px;">
+          </div>
+        </div>
+        <p class="exp-desc" data-key="exp1_desc">MDM team management (6 people) and project team coordination (300+ stakeholders). Migration of 5,000+ vendors at a pace of ~1,000/month. End-to-end MDM process structuring and data quality automation via Power Query. SAP ↔ JDE interface activation, production release management, TOM definition and IS transformation.</p>
+        <div class="exp-kpis">
+          <div class="kpi">
+            <div class="kpi-val counter" data-target="5000" data-suffix="+">0</div>
+            <div class="kpi-lbl" data-key="kpi_vendors">Vendors migrated</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val counter" data-target="1000" data-suffix="/mo+">0</div>
+            <div class="kpi-lbl" data-key="kpi_pace">Monthly pace</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">6</div>
+            <div class="kpi-lbl" data-key="kpi_team">MDM team</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val counter" data-target="300" data-suffix="+">0</div>
+            <div class="kpi-lbl" data-key="kpi_stakeholders">Stakeholders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Julhiet Sterwen — Senior Consultant / Gireve -->
+      <div class="exp-card fade-up" style="transition-delay:0.05s">
+        <div class="exp-card-head">
+          <div>
+            <div class="exp-badge">Senior Consultant</div>
+            <div class="exp-role" data-key="exp2_role">CEO Right Hand</div>
+            <div class="exp-company">Julhiet Sterwen · Gireve</div>
+            <div class="exp-period">2024</div>
+          </div>
+          <div class="exp-logos">
+            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;">
+            <img src="assets/logos/gireve.png" alt="Gireve" class="exp-logo exp-logo-keep" style="height:32px;">
+          </div>
+        </div>
+        <p class="exp-desc" data-key="exp2_desc">Right-hand to the CEO: full IS overhaul (new CTO, Enterprise Architect, automated testing pipeline), process redesign, and organizational transformation. Strategic responsibility across the entire company transformation initiative.</p>
+        <div class="exp-kpis">
+          <div class="kpi">
+            <div class="kpi-val">-20%</div>
+            <div class="kpi-lbl" data-key="kpi_costs">Cost reduction</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" data-key="kpi_is_val">Full</div>
+            <div class="kpi-lbl" data-key="kpi_is">IS overhaul</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capgemini — BNP -->
+      <div class="exp-card green-top fade-up" style="transition-delay:0.1s">
+        <div class="exp-card-head">
+          <div>
+            <div class="exp-badge">Consultant</div>
+            <div class="exp-role" data-key="exp3_role">Project Manager — BNP Corporate Global Operations</div>
+            <div class="exp-company">Capgemini</div>
+            <div class="exp-period" style="color:var(--green)">Sept. 2021 → Apr. 2025</div>
+          </div>
+          <div class="exp-logos">
+            <img src="assets/logos/capgemini.svg" alt="Capgemini" class="exp-logo" style="height:44px; filter:none; opacity:0.9;">
+          </div>
+        </div>
+        <p class="exp-desc" data-key="exp3_desc">Led 3 major international transformation programs across FR, UK, DE, ES, IT, PT, CZ. Deployed a logistics asset management platform (−5 days of storage), an AI customer experience tool, and an inventory management system. Governed Agile/Scrum projects end-to-end: epics, user stories, sprint planning and review, Copil & Steerco management.</p>
+        <div class="exp-kpis">
+          <div class="kpi">
+            <div class="kpi-val counter" data-target="10" data-suffix="M€" data-green="true">0</div>
+            <div class="kpi-lbl" data-key="kpi_saving">Cost saving 2024</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">+10%</div>
+            <div class="kpi-lbl" data-key="kpi_sat">Client satisfaction</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">1.5M€</div>
+            <div class="kpi-lbl" data-key="kpi_avoid">Cost avoidance</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val">700k€</div>
+            <div class="kpi-lbl" data-key="kpi_per">per country/year</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bayard + Proprioo -->
+      <div class="exp-card fade-up" style="transition-delay:0.15s">
+        <div class="exp-card-head">
+          <div>
+            <div class="exp-badge">Assistant → Chef de Projet</div>
+            <div class="exp-role" data-key="exp4_role">Digital Project Manager</div>
+            <div class="exp-company">Bayard · Proprioo</div>
+            <div class="exp-period">Jan. 2020 → Nov. 2021</div>
+          </div>
+          <div class="exp-logos">
+            <div class="bayard-logo-text">
+              <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><rect x="0" y="0" width="10" height="10" rx="1.5" fill="white" opacity="0.9"/><polygon points="5,10 0,13 10,13" fill="white" opacity="0.9"/></svg>
+              bayard
+            </div>
+          </div>
+        </div>
+        <p class="exp-desc" data-key="exp4_desc">Digital PM at Bayard media group (Sept. 2020 – Nov. 2021) and Assistant Digital PM at Proprioo real-estate startup (Jan. – Sept. 2020). Built solid foundations in digital project management and agile practices.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 — CREATIONS
+============================================================ -->
+<section id="creations">
+  <div class="creations-inner">
+    <div class="section-header fade-up">
+      <span class="section-label" data-key="creations_label">Portfolio</span>
+      <h2 class="section-title" data-key="creations_title">My Creations</h2>
+    </div>
+    <p class="creations-intro fade-up" style="transition-delay:0.08s">
+      <strong data-key="creations_strong">I turn your ideas into reality.</strong><br>
+      <span data-key="creations_sub">Try my creations below.</span>
+    </p>
+
+    <div class="creations-grid">
+
+      <a class="creation-card fade-up" href="https://iatrition-86290b74.base44.app/" target="_blank" rel="noopener noreferrer">
+        <div class="card-shot">
+          <img src="assets/screenshots/questionnaire-ia.png" alt="AI Maturity" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Maturité IA</div>
+          <p class="card-desc" data-key="c1_desc">An AI questionnaire to evaluate your company's AI maturity level in minutes and get personalized recommendations.</p>
+          <span class="card-link" data-key="explore">Explore <span class="card-link-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a class="creation-card fade-up" href="https://artscan.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
+        <div class="card-shot">
+          <img src="assets/screenshots/artscan.png" alt="ArtScan" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">ArtScan</div>
+          <p class="card-desc" data-key="c2_desc">Scan and analyze any work of art with AI — like having a museum curator in your pocket.</p>
+          <span class="card-link" data-key="explore">Explore <span class="card-link-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a class="creation-card fade-up" href="https://sap-migration-tracker-71c19948.base44.app/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
+        <div class="card-shot">
+          <img src="assets/screenshots/sap-migration.png" alt="SAP Migration Tracker" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">SAP Migration Tracker</div>
+          <p class="card-desc" data-key="c3_desc">Real-time vendor migration tracking for SAP FI — built for the Kering international program.</p>
+          <span class="card-link" data-key="explore">Explore <span class="card-link-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a class="creation-card fade-up" href="https://monevio.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
+        <div class="card-shot">
+          <img src="assets/screenshots/monevio.png" alt="Monevio" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Monevio</div>
+          <p class="card-desc" data-key="c4_desc">A SaaS for personal and business expense management — simple, visual and bilingual.</p>
+          <span class="card-link" data-key="explore">Explore <span class="card-link-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a class="creation-card fade-up" href="https://traveliz.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
+        <div class="card-shot">
+          <img src="assets/screenshots/traveliz.png" alt="Traveliz" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Traveliz</div>
+          <p class="card-desc" data-key="c5_desc">AI-powered travel planning — create your perfect itinerary in just a few clicks.</p>
+          <span class="card-link" data-key="explore">Explore <span class="card-link-arrow">→</span></span>
+        </div>
+      </a>
+
+      <div class="creation-card coming fade-up" style="transition-delay:0.24s">
+        <div class="card-shot">
+          <div class="card-coming-ph">🔧</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Altavia — Data Cleaner</div>
+          <p class="card-desc" data-key="c6_desc">A client database cleaning tool for e-invoicing migration — in active development for Altavia.</p>
+          <span class="coming-badge"><span class="coming-dot"></span><span data-key="in_progress">In progress</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5 — EDUCATION
+============================================================ -->
+<section id="education">
+  <div class="edu-inner">
+    <div class="section-header fade-up">
+      <span class="section-label" data-key="edu_label">Academic Background</span>
+      <h2 class="section-title" data-key="edu_title">Education</h2>
+    </div>
+    <div class="edu-timeline">
+
+      <div class="edu-item fade-up">
+        <div class="edu-connector">
+          <div class="edu-dot"></div>
+          <div class="edu-line"></div>
+        </div>
+        <div class="edu-date">2015 – 2017</div>
+        <div class="edu-school">IUT Bayonne</div>
+        <div class="edu-degree" data-key="edu4">DUT Commercial Techniques</div>
+        <div class="edu-city">Bayonne</div>
+      </div>
+
+      <div class="edu-item fade-up" style="transition-delay:0.1s">
+        <div class="edu-connector">
+          <div class="edu-dot"></div>
+          <div class="edu-line"></div>
+        </div>
+        <div class="edu-date">2017 – 2019</div>
+        <div class="edu-school">EIML Paris</div>
+        <div class="edu-degree" data-key="edu3">International Luxury Marketing School</div>
+        <div class="edu-city">Paris</div>
+      </div>
+
+      <div class="edu-item fade-up" style="transition-delay:0.2s">
+        <div class="edu-connector">
+          <div class="edu-dot"></div>
+          <div class="edu-line"></div>
+        </div>
+        <div class="edu-date">2019 – 2021</div>
+        <div class="edu-school">PSB Paris School of Business</div>
+        <div class="edu-degree" data-key="edu2">MBA E-Business &amp; Digital Strategy</div>
+        <div class="edu-city">Paris</div>
+      </div>
+
+      <div class="edu-item fade-up" style="transition-delay:0.3s">
+        <div class="edu-connector">
+          <div class="edu-dot"></div>
+          <div class="edu-line" style="background:linear-gradient(to right, rgba(0,200,150,0.4), transparent)"></div>
+        </div>
+        <div class="edu-date">2022 – 2023</div>
+        <div class="edu-school">SKEMA Business School</div>
+        <div class="edu-degree" data-key="edu1">MSc Project &amp; Programme Management</div>
+        <div class="edu-city">Paris</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6 — CONTACT
+============================================================ -->
+<section id="contact">
+  <div class="contact-inner">
+    <span class="section-label" style="text-align:center;" data-key="contact_label">Get in touch</span>
+    <h2 class="contact-title fade-up" data-key="contact_title">Contact me.</h2>
+    <div class="contact-email-pill fade-up" style="transition-delay:0.12s">
+      cames.sacha@gmail.com
+    </div>
+  </div>
+  <div class="footer fade-up" style="transition-delay:0.2s">
+    <span>© 2026 Sacha Cames</span>
+    <span data-key="footer">Made with passion</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ---- Translations ---- */
+const i18n = {
+  en: {
+    hero_tagline: "Manager · Consultant · Builder",
+    hero_scroll: "Scroll to explore",
+    about_label: "Who I am",
+    about_h2: "Building what's<br>missing.",
+    about_p1: "I'm a multilingual manager with over five years of experience in consulting, leading high-impact international projects, organizational restructurings, and business transformation initiatives. Fluent in four languages, bilingual in French and Italian, and deeply connected to their cultures, I'm used to navigating complex, multicultural environments with both strategic vision and pragmatism.",
+    about_p2: "I'm driven by creativity, ambition, adaptability, and a strong sense of execution — turning ideas into concrete results.",
+    about_cta: "Let's build it together!",
+    native: "Native",
+    exp_label: "Career",
+    exp_title: "Experience",
+    exp1_role: "MDM Team Director",
+    exp1_desc: "MDM team management (6 people) and project team coordination (300+ stakeholders). Migration of 5,000+ vendors at a pace of ~1,000/month. End-to-end MDM process structuring and data quality automation via Power Query. SAP ↔ JDE interface activation, production release management, TOM definition and IS transformation.",
+    exp2_role: "Senior Consultant — CEO Right Hand",
+    exp2_desc: "Right-hand to the CEO: full IS overhaul (new CTO, Enterprise Architect, automated testing pipeline), process redesign, and organizational transformation. Strategic responsibility across the entire company transformation initiative.",
+    exp3_role: "Project Manager — BNP Corporate Global Operations",
+    exp3_desc: "Led 3 major international transformation programs across FR, UK, DE, ES, IT, PT, CZ. Deployed a logistics asset management platform (−5 days of storage), an AI customer experience tool, and an inventory management system. Governed Agile/Scrum projects end-to-end: epics, user stories, sprint planning and review, Copil & Steerco management.",
+    exp4_role: "Digital Project Manager",
+    exp4_desc: "Digital PM at Bayard media group (Sept. 2020 – Nov. 2021) and Assistant Digital PM at Proprioo real-estate startup (Jan. – Sept. 2020). Built solid foundations in digital project management and agile practices.",
+    kpi_vendors: "Vendors migrated",
+    kpi_pace: "Monthly pace",
+    kpi_team: "MDM team",
+    kpi_stakeholders: "Stakeholders",
+    kpi_costs: "Cost reduction",
+    kpi_is_val: "Full",
+    kpi_is: "IS overhaul",
+    kpi_saving: "Cost saving 2024",
+    kpi_sat: "Client satisfaction",
+    kpi_avoid: "Cost avoidance",
+    kpi_per: "per country/year",
+    creations_label: "Portfolio",
+    creations_title: "My Creations",
+    creations_strong: "I turn your ideas into reality.",
+    creations_sub: "Try my creations below.",
+    c1_desc: "An AI questionnaire to evaluate your company's AI maturity level in minutes and get personalized recommendations.",
+    c2_desc: "Scan and analyze any work of art with AI — like having a museum curator in your pocket.",
+    c3_desc: "Real-time vendor migration tracking for SAP FI — built for the Kering international program.",
+    c4_desc: "A SaaS for personal and business expense management — simple, visual and bilingual.",
+    c5_desc: "AI-powered travel planning — create your perfect itinerary in just a few clicks.",
+    c6_desc: "A client database cleaning tool for e-invoicing migration — in active development for Altavia.",
+    explore: "Explore →",
+    in_progress: "In progress",
+    edu_label: "Academic Background",
+    edu_title: "Education",
+    edu1: "MSc Project & Programme Management",
+    edu2: "MBA E-Business & Digital Strategy",
+    edu3: "International Luxury Marketing School",
+    edu4: "DUT Commercial Techniques",
+    contact_label: "Get in touch",
+    contact_title: "Contact me.",
+    footer: "Made with passion"
+  },
+  fr: {
+    hero_tagline: "Manager · Consultant · Créateur",
+    hero_scroll: "Défiler pour explorer",
+    about_label: "Qui je suis",
+    about_h2: "Construire ce qui<br>manque.",
+    about_p1: "Manager multilingue avec plus de cinq ans d'expérience en conseil, je pilote des projets internationaux à fort impact, des restructurations organisationnelles et des transformations d'entreprise. Bilingue français-italien, fluent en quatre langues, j'évolue naturellement dans des environnements multiculturels complexes, avec vision stratégique et pragmatisme.",
+    about_p2: "Je suis animé par la créativité, l'ambition, l'adaptabilité et un fort sens de l'exécution — transformer les idées en résultats concrets.",
+    about_cta: "Construisons-le ensemble !",
+    native: "Natif",
+    exp_label: "Parcours",
+    exp_title: "Expériences",
+    exp1_role: "Directeur Équipe MDM",
+    exp1_desc: "Management de l'équipe MDM (6 personnes) et coordination des équipes projets (300+ parties prenantes). Migration de 5 000+ vendors à un rythme de ~1 000/mois. Structuration du process MDM end-to-end et automatisation des contrôles qualité données (Power Query). Pilotage des interfaces SAP ↔ JDE, sécurisation des mises en production, définition du TOM et transformation du SI.",
+    exp2_role: "Senior Consultant — Bras droit du CEO",
+    exp2_desc: "Bras droit du CEO : refonte complète du SI (nouveau CTO, Architecte d'Entreprise, tests automatisés), refonte des processus et transformation organisationnelle. Responsabilité stratégique globale de l'initiative de transformation.",
+    exp3_role: "Chef de Projet — BNP Corporate Global Operations",
+    exp3_desc: "Pilotage de 3 grands programmes de transformation internationale (FR, UK, DE, ES, IT, PT, CZ) : plateforme logistique de gestion d'assets (−5 jours de stockage), outil IA d'expérience client, système de gestion des stocks. Gouvernance Agile/Scrum : épics, US, sprints, Copil & Steerco.",
+    exp4_role: "Chef de Projet Digital",
+    exp4_desc: "Chef de Projet Digital chez Bayard (sept. 2020 – nov. 2021) et Assistant Chef de Projet Digital chez Proprioo (janv. – sept. 2020). Solides bases en gestion de projet digital et méthodologies agiles.",
+    kpi_vendors: "Vendors migrés",
+    kpi_pace: "Cadence mensuelle",
+    kpi_team: "Équipe MDM",
+    kpi_stakeholders: "Parties prenantes",
+    kpi_costs: "Réduction des coûts",
+    kpi_is_val: "Complète",
+    kpi_is: "Refonte SI",
+    kpi_saving: "Économies 2024",
+    kpi_sat: "Satisfaction client",
+    kpi_avoid: "Évitement de coûts",
+    kpi_per: "par pays/an",
+    creations_label: "Portfolio",
+    creations_title: "Mes Réalisations",
+    creations_strong: "Je fais de vos idées une réalité.",
+    creations_sub: "Testez mes réalisations ci-dessous.",
+    c1_desc: "Un questionnaire IA pour évaluer la maturité IA de votre entreprise en quelques minutes.",
+    c2_desc: "Scannez et analysez n'importe quelle œuvre d'art avec l'IA — comme un conservateur de musée dans votre poche.",
+    c3_desc: "Outil de tracking en temps réel de la migration de données SAP FI — développé pour le programme Kering.",
+    c4_desc: "Un SaaS de gestion des dépenses personnelles et professionnelles — simple, visuel et bilingue.",
+    c5_desc: "Planification de voyage par IA — créez votre itinéraire parfait en quelques clics.",
+    c6_desc: "Outil de nettoyage de base de données clients pour la migration e-invoicing — en développement pour Altavia.",
+    explore: "Découvrir →",
+    in_progress: "En cours",
+    edu_label: "Parcours Académique",
+    edu_title: "Formation",
+    edu1: "Master Spécialisé Management de Projet et Programmes",
+    edu2: "MBA E-Business & Stratégie Digitale",
+    edu3: "École Internationale de Marketing du Luxe",
+    edu4: "DUT Techniques de Commercialisation",
+    contact_label: "Prenons contact",
+    contact_title: "Contactez-moi.",
+    footer: "Fait avec passion"
+  },
+  it: {
+    hero_tagline: "Manager · Consulente · Creatore",
+    hero_scroll: "Scorri per esplorare",
+    about_label: "Chi sono",
+    about_h2: "Costruire ciò che<br>manca.",
+    about_p1: "Manager multilingue con oltre cinque anni di esperienza nella consulenza, guido progetti internazionali ad alto impatto, ristrutturazioni organizzative e iniziative di trasformazione aziendale. Bilingue francese-italiano e fluente in quattro lingue, sono abituato a navigare ambienti multiculturali complessi con visione strategica e pragmatismo.",
+    about_p2: "Sono guidato dalla creatività, dall'ambizione, dall'adattabilità e da un forte senso dell'esecuzione — trasformare le idee in risultati concreti.",
+    about_cta: "Costruiamolo insieme!",
+    native: "Madrelingua",
+    exp_label: "Carriera",
+    exp_title: "Esperienza",
+    exp1_role: "Direttore Team MDM",
+    exp1_desc: "Gestione del team MDM (6 persone) e coordinamento dei team di progetto (300+ stakeholder). Migrazione di 5.000+ vendor al ritmo di ~1.000/mese. Strutturazione del processo MDM end-to-end e automazione del controllo qualità dati (Power Query). Gestione delle interfacce SAP ↔ JDE e delle messe in produzione.",
+    exp2_role: "Senior Consultant — Braccio Destro del CEO",
+    exp2_desc: "Braccio destro del CEO: rifacimento completo del SI (nuovo CTO, Architetto Enterprise, test automatizzati), ridisegno dei processi e trasformazione organizzativa. Responsabilità strategica globale dell'iniziativa di trasformazione.",
+    exp3_role: "Project Manager — BNP Corporate Global Operations",
+    exp3_desc: "Gestione di 3 grandi programmi di trasformazione internazionale (FR, UK, DE, ES, IT, PT, CZ): piattaforma logistica di gestione degli asset (−5 giorni di stoccaggio), strumento AI per l'esperienza cliente, sistema di gestione delle scorte. Metodologia Agile/Scrum end-to-end.",
+    exp4_role: "Project Manager Digitale",
+    exp4_desc: "Digital PM presso Bayard (set. 2020 – nov. 2021) e Assistant PM digitale presso Proprioo (gen. – set. 2020). Solide basi nella gestione di progetti digitali e nelle metodologie agili.",
+    kpi_vendors: "Vendor migrati",
+    kpi_pace: "Ritmo mensile",
+    kpi_team: "Team MDM",
+    kpi_stakeholders: "Stakeholder",
+    kpi_costs: "Riduzione costi",
+    kpi_is_val: "Completo",
+    kpi_is: "Rifacimento SI",
+    kpi_saving: "Risparmio 2024",
+    kpi_sat: "Soddisfazione clienti",
+    kpi_avoid: "Costi evitati",
+    kpi_per: "per paese/anno",
+    creations_label: "Portfolio",
+    creations_title: "Le Mie Creazioni",
+    creations_strong: "Trasformo le tue idee in realtà.",
+    creations_sub: "Prova le mie creazioni qui sotto.",
+    c1_desc: "Un questionario AI per valutare la maturità AI della tua azienda in pochi minuti.",
+    c2_desc: "Scansiona e analizza qualsiasi opera d'arte con l'IA — come avere un curatore museale in tasca.",
+    c3_desc: "Strumento di tracking in tempo reale per la migrazione dati SAP FI — sviluppato per il programma Kering.",
+    c4_desc: "Un SaaS per la gestione delle spese personali e aziendali — semplice, visivo e bilingue.",
+    c5_desc: "Pianificazione viaggi con AI — crea il tuo itinerario perfetto in pochi clic.",
+    c6_desc: "Strumento di pulizia del database clienti per la migrazione e-invoicing — in sviluppo per Altavia.",
+    explore: "Scopri →",
+    in_progress: "In corso",
+    edu_label: "Percorso Accademico",
+    edu_title: "Formazione",
+    edu1: "Master Specialistico in Project & Programme Management",
+    edu2: "MBA E-Business & Strategia Digitale",
+    edu3: "Scuola Internazionale di Marketing del Lusso",
+    edu4: "DUT Tecniche Commerciali",
+    contact_label: "Mettiamoci in contatto",
+    contact_title: "Contattami.",
+    footer: "Fatto con passione"
+  }
+};
+
+/* ---- Language switcher ---- */
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const val = i18n[lang][el.dataset.key];
+    if (val !== undefined) el.innerHTML = val;
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ---- Scroll fade animations ---- */
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => fadeObserver.observe(el));
+
+/* ---- Counter animation ---- */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const step = now => {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(easeOut(p) * target).toLocaleString() + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = '1';
+      animateCounter(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+/* ---- Init ---- */
+setLang('en');
+</script>
+</body>
+</html>
