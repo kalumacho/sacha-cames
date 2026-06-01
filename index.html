@@ -82,13 +82,71 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    #hero video {
+    #hero-bg {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      background: #000;
       z-index: 0;
+      overflow: hidden;
+    }
+    .sk {
+      position: absolute;
+      height: 3px;
+      left: 108%;
+      border-radius: 999px;
+      opacity: 0;
+      will-change: transform, opacity;
+      animation: fly linear infinite;
+    }
+    @keyframes fly {
+      0%   { opacity: 0; transform: rotate(-15deg) translateX(0); }
+      5%   { opacity: 1; }
+      95%  { opacity: 1; }
+      100% { opacity: 0; transform: rotate(-15deg) translateX(-210vw); }
+    }
+    .s1 { top: 10%; width: 300px; background: linear-gradient(90deg, #6af, transparent); box-shadow: 0 0 18px 6px rgba(80,160,255,.7);  animation-duration: 10s; animation-delay: -2s; }
+    .s2 { top: 25%; width: 210px; background: linear-gradient(90deg, #0cf, transparent); box-shadow: 0 0 16px 5px rgba(0,200,255,.65);  animation-duration: 13s; animation-delay: 1.5s; }
+    .s3 { top: 38%; width: 350px; background: linear-gradient(90deg, #84f, transparent); box-shadow: 0 0 20px 7px rgba(130,60,255,.65); animation-duration: 11s; animation-delay: -4s; }
+    .s4 { top: 48%; width: 180px; background: linear-gradient(90deg, #48f, transparent); box-shadow: 0 0 16px 5px rgba(60,130,255,.6);  animation-duration: 15s; animation-delay: 4.5s; }
+    .s5 { top: 18%; width: 270px; background: linear-gradient(90deg, #0ae, transparent); box-shadow: 0 0 18px 6px rgba(0,170,230,.65);  animation-duration: 12s; animation-delay: -3s; }
+    .s6 { top: 42%; width: 160px; background: linear-gradient(90deg, #62f, transparent); box-shadow: 0 0 16px 5px rgba(90,50,255,.6);   animation-duration: 14s; animation-delay: 6.5s; }
+    .s7 { top: 5%;  width: 240px; background: linear-gradient(90deg, #1bc, transparent); box-shadow: 0 0 18px 6px rgba(30,180,200,.65); animation-duration:  9s; animation-delay: -1.5s; }
+    .s8 { top: 32%; width: 230px; background: linear-gradient(90deg, #74f, transparent); box-shadow: 0 0 18px 6px rgba(110,70,255,.6);  animation-duration: 16s; animation-delay: 3s; }
+    .hero-welcome {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      animation: welcomeFadeIn 1.6s var(--ease) 0.6s forwards;
+    }
+    .hero-welcome-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(54px, 9vw, 118px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      white-space: nowrap;
+      text-shadow:
+        0 0 50px rgba(80,130,255,0.45),
+        0 0 120px rgba(100,80,255,0.22);
+    }
+    .hero-welcome-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(13px, 1.7vw, 20px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.42);
+      letter-spacing: 0.26em;
+      text-transform: lowercase;
+    }
+    @keyframes welcomeFadeIn {
+      from { opacity: 0; transform: translate(-50%, calc(-50% + 32px)); }
+      to   { opacity: 1; transform: translate(-50%, -50%); }
     }
     .hero-overlay {
       position: absolute;
@@ -202,6 +260,7 @@
       position: absolute;
       inset: 0;
       background:
+        linear-gradient(to bottom, transparent 65%, #000 100%),
         radial-gradient(ellipse at 90% 25%, var(--orange-glow) 0%, transparent 52%),
         radial-gradient(ellipse at 10% 75%, var(--green-glow) 0%, transparent 48%);
       z-index: 0;
@@ -342,6 +401,8 @@
       position: absolute;
       inset: 0;
       background:
+        linear-gradient(to bottom, transparent 65%, #000 100%),
+        linear-gradient(to top, transparent 65%, #000 100%),
         radial-gradient(ellipse at 15% 20%, var(--green-glow) 0%, transparent 45%),
         radial-gradient(ellipse at 85% 75%, var(--orange-glow) 0%, transparent 48%);
       z-index: 0;
@@ -595,6 +656,8 @@
       position: absolute;
       inset: 0;
       background:
+        linear-gradient(to bottom, transparent 65%, #000 100%),
+        linear-gradient(to top, transparent 65%, #000 100%),
         radial-gradient(ellipse at 50% -10%, var(--orange-glow) 0%, transparent 55%),
         radial-gradient(ellipse at 80% 90%, var(--green-glow) 0%, transparent 45%);
       z-index: 0;
@@ -728,6 +791,7 @@
       position: absolute;
       inset: 0;
       background:
+        linear-gradient(to top, transparent 65%, #000 100%),
         radial-gradient(ellipse at 5% 50%, var(--green-glow) 0%, transparent 42%),
         radial-gradient(ellipse at 95% 50%, var(--orange-glow) 0%, transparent 42%);
       z-index: 0;
@@ -942,10 +1006,22 @@
      SECTION 1 — HERO
 ============================================================ -->
 <section id="hero">
-  <video autoplay muted loop playsinline>
-    <source src="assets/video/hero.mp4" type="video/mp4">
-  </video>
+  <div id="hero-bg">
+    <span class="sk s1"></span>
+    <span class="sk s2"></span>
+    <span class="sk s3"></span>
+    <span class="sk s4"></span>
+    <span class="sk s5"></span>
+    <span class="sk s6"></span>
+    <span class="sk s7"></span>
+    <span class="sk s8"></span>
+  </div>
   <div class="hero-overlay"></div>
+
+  <div class="hero-welcome">
+    <div class="hero-welcome-title" data-key="hero_welcome">Bienvenue.</div>
+    <div class="hero-welcome-sub" data-key="hero_sub">faisons connaissance</div>
+  </div>
 
   <div class="hero-top">
     <div class="hero-name">
@@ -1328,6 +1404,8 @@
 /* ---- Translations ---- */
 const i18n = {
   en: {
+    hero_welcome: "Welcome.",
+    hero_sub: "let's get acquainted",
     hero_tagline: "Manager · Consultant · Builder",
     hero_scroll: "Scroll to explore",
     about_label: "Who I am",
@@ -1380,6 +1458,8 @@ const i18n = {
     footer: "Made with passion"
   },
   fr: {
+    hero_welcome: "Bienvenue.",
+    hero_sub: "faisons connaissance",
     hero_tagline: "Manager · Consultant · Créateur",
     hero_scroll: "Défiler pour explorer",
     about_label: "Qui je suis",
@@ -1432,6 +1512,8 @@ const i18n = {
     footer: "Fait avec passion"
   },
   it: {
+    hero_welcome: "Benvenuto.",
+    hero_sub: "facciamo conoscenza",
     hero_tagline: "Manager · Consulente · Creatore",
     hero_scroll: "Scorri per esplorare",
     about_label: "Chi sono",
