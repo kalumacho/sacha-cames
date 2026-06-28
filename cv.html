@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sacha Cames — CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 0; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      width: 210mm;
+      height: 297mm;
+      overflow: hidden;
+      display: flex;
+      background: #fff;
+      color: #111;
+      font-size: 7.8pt;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 66mm;
+      min-width: 66mm;
+      background: #0b0b0b;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 8mm 7mm 7mm;
+      gap: 0;
+    }
+
+    .photo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5mm;
+    }
+    .photo-wrap img {
+      width: 22mm;
+      height: 22mm;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 1.5px solid rgba(255,107,0,0.5);
+    }
+
+    .sidebar-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13pt;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      margin-bottom: 1.5mm;
+    }
+    .sidebar-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 500;
+      color: #FF6B00;
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 5mm;
+    }
+
+    .s-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 3.5mm 0;
+    }
+
+    .s-section-title {
+      font-size: 6pt;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #FF6B00;
+      margin-bottom: 2.5mm;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+      margin-bottom: 1.8mm;
+      font-size: 7pt;
+      color: rgba(255,255,255,0.75);
+    }
+    .contact-row .icon {
+      font-size: 8pt;
+      width: 4mm;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .contact-row a, .contact-row span { color: rgba(255,255,255,0.75); }
+    .contact-row.highlight span { color: #FF6B00; font-weight: 600; }
+
+    .lang-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2mm;
+    }
+    .lang-name {
+      font-size: 7.5pt;
+      color: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+    }
+    .lang-level {
+      font-size: 6pt;
+      font-weight: 700;
+      color: #00C896;
+      letter-spacing: 0.05em;
+    }
+    .lang-level.native { color: #FF6B00; }
+
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+    .skill-item {
+      font-size: 7pt;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+    }
+    .skill-item::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #FF6B00;
+      flex-shrink: 0;
+    }
+
+    .cert-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5mm;
+    }
+    .cert-chip {
+      font-size: 6pt;
+      font-weight: 600;
+      background: rgba(255,107,0,0.15);
+      border: 1px solid rgba(255,107,0,0.3);
+      color: #FF6B00;
+      border-radius: 20px;
+      padding: 1mm 2.5mm;
+      letter-spacing: 0.04em;
+    }
+
+    .portfolio-link {
+      font-size: 7pt;
+      color: #FF6B00;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 2mm;
+    }
+    .portfolio-projects {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2mm;
+    }
+    .pp-item {
+      font-size: 6.5pt;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      gap: 1.5mm;
+    }
+    .pp-item::before {
+      content: '↗';
+      font-size: 6pt;
+      color: #00C896;
+      flex-shrink: 0;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 8mm 8mm 7mm 7mm;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .main-header {
+      margin-bottom: 5mm;
+      padding-bottom: 3.5mm;
+      border-bottom: 2px solid #FF6B00;
+    }
+    .main-fullname {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #0b0b0b;
+      line-height: 1;
+      margin-bottom: 1.5mm;
+    }
+    .main-subtitle {
+      font-size: 8.5pt;
+      color: #555;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    .m-section-title {
+      font-size: 6.5pt;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #FF6B00;
+      margin-bottom: 3mm;
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+    }
+    .m-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,107,0,0.2);
+    }
+
+    /* Experience cards */
+    .exp-block {
+      margin-bottom: 3.5mm;
+    }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1mm;
+    }
+    .exp-left {}
+    .exp-badge {
+      display: inline-block;
+      font-size: 5.5pt;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF6B00;
+      background: rgba(255,107,0,0.08);
+      border: 1px solid rgba(255,107,0,0.2);
+      border-radius: 20px;
+      padding: 0.5mm 2mm;
+      margin-bottom: 1mm;
+    }
+    .exp-role {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #0b0b0b;
+      line-height: 1.2;
+    }
+    .exp-meta {
+      font-size: 7pt;
+      color: #888;
+      margin-top: 0.5mm;
+    }
+    .exp-meta strong { color: #555; }
+    .exp-period {
+      font-size: 6.5pt;
+      font-weight: 600;
+      color: #FF6B00;
+      font-family: 'Space Grotesk', sans-serif;
+      white-space: nowrap;
+      margin-left: 2mm;
+    }
+    .exp-bullets {
+      list-style: none;
+      margin-top: 1.5mm;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8mm;
+    }
+    .exp-bullets li {
+      font-size: 7pt;
+      color: #333;
+      display: flex;
+      gap: 1.5mm;
+      line-height: 1.4;
+    }
+    .exp-bullets li::before {
+      content: '•';
+      color: #FF6B00;
+      flex-shrink: 0;
+      font-size: 7pt;
+      margin-top: 0.1mm;
+    }
+    .kpi-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2mm;
+      margin-top: 1.5mm;
+    }
+    .kpi-chip {
+      font-size: 6pt;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 0.5mm 2.5mm;
+      letter-spacing: 0.04em;
+    }
+    .kpi-chip.orange {
+      background: rgba(255,107,0,0.1);
+      border: 1px solid rgba(255,107,0,0.25);
+      color: #cc4e00;
+    }
+    .kpi-chip.green {
+      background: rgba(0,200,150,0.08);
+      border: 1px solid rgba(0,200,150,0.25);
+      color: #007a5e;
+    }
+
+    .exp-divider {
+      height: 1px;
+      background: #f0f0f0;
+      margin: 3mm 0;
+    }
+
+    /* Education */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm 5mm;
+      margin-top: 0;
+    }
+    .edu-item {}
+    .edu-year {
+      font-size: 6pt;
+      font-weight: 700;
+      color: #00C896;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5mm;
+    }
+    .edu-school {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: #0b0b0b;
+      line-height: 1.2;
+    }
+    .edu-degree {
+      font-size: 6.5pt;
+      color: #666;
+      margin-top: 0.3mm;
+    }
+    .edu-city {
+      font-size: 6pt;
+      color: #aaa;
+    }
+
+    @media print {
+      body { width: 210mm; height: 297mm; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+
+  <div class="photo-wrap">
+    <img src="assets/images/photo.webp" alt="Sacha Cames">
+  </div>
+
+  <div class="sidebar-name">SACHA<br>CAMES</div>
+  <div class="sidebar-title">Manager · Consultant</div>
+
+  <div class="s-divider"></div>
+
+  <div class="s-section-title">Contact</div>
+  <div class="contact-row">
+    <span class="icon">✉</span>
+    <span>cames.sacha@gmail.com</span>
+  </div>
+  <div class="contact-row highlight">
+    <span class="icon">🌐</span>
+    <span>sacha-cames.vercel.app</span>
+  </div>
+  <div class="contact-row">
+    <span class="icon">📍</span>
+    <span>Paris, France</span>
+  </div>
+
+  <div class="s-divider"></div>
+
+  <div class="s-section-title">Languages</div>
+  <div class="lang-row">
+    <span class="lang-name">🇮🇹 Italian</span>
+    <span class="lang-level native">Native</span>
+  </div>
+  <div class="lang-row">
+    <span class="lang-name">🇫🇷 French</span>
+    <span class="lang-level native">Native</span>
+  </div>
+  <div class="lang-row">
+    <span class="lang-name">🇬🇧 English</span>
+    <span class="lang-level">C1</span>
+  </div>
+  <div class="lang-row">
+    <span class="lang-name">🇪🇸 Spanish</span>
+    <span class="lang-level">C1</span>
+  </div>
+
+  <div class="s-divider"></div>
+
+  <div class="s-section-title">Skills</div>
+  <div class="skill-list">
+    <div class="skill-item">Project & Programme Management</div>
+    <div class="skill-item">Agile / Scrum · Jira · Triskell</div>
+    <div class="skill-item">SAP FI · JDE · MDM</div>
+    <div class="skill-item">Power BI · Power Query · Tableau</div>
+    <div class="skill-item">Data migration & quality control</div>
+    <div class="skill-item">Stakeholder management</div>
+    <div class="skill-item">HTML · CSS · Python</div>
+    <div class="skill-item">Shopify · WordPress · Canva</div>
+  </div>
+
+  <div class="s-divider"></div>
+
+  <div class="s-section-title">Certifications</div>
+  <div class="cert-row">
+    <span class="cert-chip">PMI</span>
+    <span class="cert-chip">Prince2</span>
+    <span class="cert-chip">Google Ads</span>
+  </div>
+
+  <div class="s-divider"></div>
+
+  <div class="s-section-title">Portfolio</div>
+  <div class="portfolio-link">sacha-cames.vercel.app</div>
+  <div class="portfolio-projects">
+    <div class="pp-item">artscan.fr — AI art scanner</div>
+    <div class="pp-item">monevio.fr — Expense SaaS</div>
+    <div class="pp-item">traveliz.fr — AI trip planner</div>
+    <div class="pp-item">SAP Migration Tracker</div>
+    <div class="pp-item">AI Maturity Questionnaire</div>
+  </div>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+  <div class="main-header">
+    <div class="main-fullname">Sacha Cames</div>
+    <div class="main-subtitle">Multilingual Manager &amp; Consultant · 5+ years · International transformation programs</div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="m-section-title">Experience</div>
+
+  <!-- JS — Manager / Kering -->
+  <div class="exp-block">
+    <div class="exp-header">
+      <div class="exp-left">
+        <div class="exp-badge">Manager</div>
+        <div class="exp-role">MDM Team Director</div>
+        <div class="exp-meta"><strong>Julhiet Sterwen</strong> · Kering (luxury group)</div>
+      </div>
+      <div class="exp-period">Nov. 2025 → Present</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Management of MDM team (6 people) &amp; project teams (300+ stakeholders) — SAP FI/JDE multi-entity migration</li>
+      <li>Migration of 5,000+ vendors at ~1,000/month — end-to-end MDM process &amp; data quality automation (Power Query)</li>
+      <li>TOM definition, IS transformation, SAP ↔ JDE interface activation &amp; production release management</li>
+    </ul>
+    <div class="kpi-row">
+      <span class="kpi-chip orange">5 000+ Vendors migrated</span>
+      <span class="kpi-chip orange">~1 000 / month</span>
+      <span class="kpi-chip orange">Team of 6</span>
+      <span class="kpi-chip orange">300+ Stakeholders</span>
+    </div>
+  </div>
+
+  <div class="exp-divider"></div>
+
+  <!-- JS — Senior Consultant / Gireve -->
+  <div class="exp-block">
+    <div class="exp-header">
+      <div class="exp-left">
+        <div class="exp-badge">Senior Consultant</div>
+        <div class="exp-role">CEO Right Hand — IS &amp; Org. Transformation</div>
+        <div class="exp-meta"><strong>Julhiet Sterwen</strong> · Gireve</div>
+      </div>
+      <div class="exp-period">2024</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Full IS overhaul: new CTO, Enterprise Architect, automated testing pipeline, process redesign</li>
+      <li>Organizational transformation &amp; strategic alignment — 20% cost reduction achieved</li>
+    </ul>
+    <div class="kpi-row">
+      <span class="kpi-chip orange">-20% Cost reduction</span>
+      <span class="kpi-chip orange">Full IS overhaul</span>
+    </div>
+  </div>
+
+  <div class="exp-divider"></div>
+
+  <!-- Capgemini -->
+  <div class="exp-block">
+    <div class="exp-header">
+      <div class="exp-left">
+        <div class="exp-badge">Consultant</div>
+        <div class="exp-role">Project Manager — BNP Corporate Global Operations</div>
+        <div class="exp-meta"><strong>Capgemini</strong> · FR / UK / DE / ES / IT / PT / CZ</div>
+      </div>
+      <div class="exp-period">Sept. 2021 → Apr. 2025</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Logistics asset management platform (FR/UK/DE/ES): governance, dev tracking, budget — 10M€ cost saving in 2024</li>
+      <li>AI tool for client experience (FR/UK/PT): +10% satisfaction yr1, 1.5M€ cost avoidance</li>
+      <li>Inventory management system (FR/IT/UK/CZ): 700k€ FTE &amp; storage savings per country/year</li>
+    </ul>
+    <div class="kpi-row">
+      <span class="kpi-chip green">10M€ Savings (2024)</span>
+      <span class="kpi-chip green">+10% Client satisfaction</span>
+      <span class="kpi-chip green">1.5M€ Cost avoidance</span>
+      <span class="kpi-chip green">700k€ / country / year</span>
+    </div>
+  </div>
+
+  <div class="exp-divider"></div>
+
+  <!-- Bayard + Proprioo -->
+  <div class="exp-block">
+    <div class="exp-header">
+      <div class="exp-left">
+        <div class="exp-badge">Assistant → Chef de Projet</div>
+        <div class="exp-role">Digital Project Manager</div>
+        <div class="exp-meta"><strong>Bayard</strong> (media group) &amp; <strong>Proprioo</strong> (real-estate startup)</div>
+      </div>
+      <div class="exp-period">Jan. 2020 → Nov. 2021</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Digital project management at Bayard (Sept. 2020 – Nov. 2021) — digital products &amp; content platforms</li>
+      <li>Assistant Digital PM at Proprioo (Jan. – Sept. 2020) — proptech startup environment, agile practices</li>
+    </ul>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="exp-divider" style="margin-top:2mm;"></div>
+  <div class="m-section-title">Education</div>
+
+  <div class="edu-grid">
+    <div class="edu-item">
+      <div class="edu-year">2022 – 2023</div>
+      <div class="edu-school">SKEMA Business School</div>
+      <div class="edu-degree">MSc Project &amp; Programme Management</div>
+      <div class="edu-city">Paris</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2019 – 2021</div>
+      <div class="edu-school">PSB Paris School of Business</div>
+      <div class="edu-degree">MBA E-Business &amp; Digital Strategy</div>
+      <div class="edu-city">Paris</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2017 – 2019</div>
+      <div class="edu-school">EIML Paris</div>
+      <div class="edu-degree">International Luxury Marketing School</div>
+      <div class="edu-city">Paris</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2015 – 2017</div>
+      <div class="edu-school">IUT Bayonne</div>
+      <div class="edu-degree">DUT Techniques de Commercialisation</div>
+      <div class="edu-city">Bayonne</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
