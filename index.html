@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sacha Cames · Manager & Consultant</title>
+  <meta name="description" content="Sacha Cames, multilingual Manager & Consultant in digital transformation, program management and data. Portfolio, experience and creations.">
+  <link rel="canonical" href="https://sachacames.com/">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sachacames.com/">
+  <meta property="og:title" content="Sacha Cames · Manager & Consultant">
+  <meta property="og:description" content="Multilingual Manager & Consultant in digital transformation, program management and data.">
+  <meta name="twitter:card" content="summary">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +26,17 @@
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
     img { max-width: 100%; height: auto; display: block; }
     a { text-decoration: none; color: inherit; }
-    button { cursor: pointer; }
+    button { cursor: pointer; font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 6px; }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
 
     /* ============================================================
        DESIGN TOKENS
@@ -41,128 +60,223 @@
     }
 
     /* ============================================================
-       LANGUAGE SWITCHER
+       HEADER (brand, nav, language switcher)
     ============================================================ */
-    .lang-switcher {
+    .site-header {
       position: fixed;
-      top: 22px;
-      right: 28px;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 9999;
-      display: flex;
-      gap: 4px;
-      background: rgba(8,8,8,0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 5px 8px;
-      will-change: transform;
+      height: 76px;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid transparent;
+      transition: height 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
     }
-    .lang-btn {
-      background: none;
-      border: none;
+    .site-header.scrolled {
+      height: 62px;
+      background: rgba(4,4,8,0.72);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom-color: var(--border);
+    }
+    .brand {
+      justify-self: start;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
       font-size: 17px;
-      opacity: 0.35;
-      transition: opacity 0.22s, transform 0.22s;
-      padding: 2px 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
       line-height: 1;
-      border-radius: 50%;
     }
-    .lang-btn:hover { opacity: 0.75; }
-    .lang-btn.active { opacity: 1; transform: scale(1.18); }
-
-    /* ============================================================
-       STICKY NAV
-    ============================================================ */
+    .brand .last {
+      background: linear-gradient(90deg, var(--orange), var(--orange-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .nav {
-      position: fixed;
-      top: 22px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-130%);
-      z-index: 9998;
       display: flex;
       gap: 2px;
-      background: rgba(8,8,8,0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 6px 8px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
-    }
-    .nav.visible {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
     }
     .nav a {
       font-family: 'Montserrat', sans-serif;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 500;
       letter-spacing: 0.03em;
-      color: rgba(255,255,255,0.6);
-      padding: 5px 13px;
+      color: rgba(255,255,255,0.62);
+      padding: 8px 14px;
       border-radius: 50px;
       transition: color 0.22s, background 0.22s;
     }
-    .nav a:hover { color: var(--orange); background: rgba(255,107,0,0.08); }
-    @media (max-width: 820px) { .nav { display: none; } }
+    .nav a:hover { color: #fff; }
+    .nav a.active { color: var(--orange); background: var(--orange-dim); }
+    .header-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lang-switcher {
+      display: flex;
+      padding: 3px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.03);
+    }
+    .lang-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.5);
+      background: none;
+      border: 0;
+      padding: 6px 10px;
+      border-radius: 50px;
+      line-height: 1;
+      transition: color 0.2s, background 0.2s;
+    }
+    .lang-btn:hover { color: #fff; }
+    .lang-btn.active { color: #000; background: #fff; }
+    .menu-btn {
+      display: none;
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    .menu-btn span {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      height: 1.5px;
+      background: #fff;
+      transition: transform 0.3s var(--ease), top 0.3s var(--ease);
+    }
+    .menu-btn span:first-child { top: 16px; }
+    .menu-btn span:last-child { top: 22px; }
+    .site-header.menu-open .menu-btn span:first-child { top: 19px; transform: rotate(45deg); }
+    .site-header.menu-open .menu-btn span:last-child { top: 19px; transform: rotate(-45deg); }
+
+    @media (max-width: 900px) {
+      .site-header {
+        display: flex;
+        justify-content: space-between;
+        height: 64px;
+        padding: 0 20px;
+      }
+      .site-header.scrolled { height: 58px; }
+      .site-header.menu-open { background: rgba(4,4,8,0.97); border-bottom-color: var(--border); }
+      .brand { font-size: 15px; }
+      .menu-btn { display: block; }
+      .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 8px 20px 28px;
+        background: rgba(4,4,8,0.97);
+        border-bottom: 1px solid var(--border);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
+      }
+      .site-header.menu-open .nav { opacity: 1; visibility: visible; transform: none; }
+      .nav a {
+        font-size: 20px;
+        padding: 16px 2px;
+        border-radius: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav a.active { background: none; }
+    }
 
     /* ============================================================
-       SECTION 1HERO VIDEO
+       SECTION 1 · HERO (constellation starfield)
     ============================================================ */
     #hero {
       position: relative;
       width: 100%;
       height: 100vh;
-      min-height: 580px;
+      height: 100svh;
+      min-height: 600px;
       overflow: hidden;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
     }
     #hero-bg {
       position: absolute;
       inset: 0;
-      background: #000;
       z-index: 0;
-      overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 50% at 72% 26%, rgba(70,90,220,0.16) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 45% at 16% 72%, rgba(120,60,200,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 35% at 90% 95%, rgba(255,107,0,0.08) 0%, transparent 70%),
+        #000;
     }
-    .sk {
+    #starfield {
       position: absolute;
-      height: 3px;
-      left: 108%;
-      border-radius: 999px;
-      opacity: 0;
-      will-change: transform, opacity;
-      animation: fly linear infinite;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-    @keyframes fly {
-      0%   { opacity: 0; transform: rotate(-15deg) translateX(0); }
-      5%   { opacity: 1; }
-      95%  { opacity: 1; }
-      100% { opacity: 0; transform: rotate(-15deg) translateX(-210vw); }
-    }
-    .s1 { top: 10%; width: 300px; background: linear-gradient(90deg, #6af, transparent); box-shadow: 0 0 18px 6px rgba(80,160,255,.7);  animation-duration: 10s; animation-delay: -2s; }
-    .s2 { top: 25%; width: 210px; background: linear-gradient(90deg, #0cf, transparent); box-shadow: 0 0 16px 5px rgba(0,200,255,.65);  animation-duration: 13s; animation-delay: 1.5s; }
-    .s3 { top: 38%; width: 350px; background: linear-gradient(90deg, #84f, transparent); box-shadow: 0 0 20px 7px rgba(130,60,255,.65); animation-duration: 11s; animation-delay: -4s; }
-    .s4 { top: 48%; width: 180px; background: linear-gradient(90deg, #48f, transparent); box-shadow: 0 0 16px 5px rgba(60,130,255,.6);  animation-duration: 15s; animation-delay: 4.5s; }
-    .s5 { top: 18%; width: 270px; background: linear-gradient(90deg, #0ae, transparent); box-shadow: 0 0 18px 6px rgba(0,170,230,.65);  animation-duration: 12s; animation-delay: -3s; }
-    .s6 { top: 42%; width: 160px; background: linear-gradient(90deg, #62f, transparent); box-shadow: 0 0 16px 5px rgba(90,50,255,.6);   animation-duration: 14s; animation-delay: 6.5s; }
-    .s7 { top: 5%;  width: 240px; background: linear-gradient(90deg, #1bc, transparent); box-shadow: 0 0 18px 6px rgba(30,180,200,.65); animation-duration:  9s; animation-delay: -1.5s; }
-    .s8 { top: 32%; width: 230px; background: linear-gradient(90deg, #74f, transparent); box-shadow: 0 0 18px 6px rgba(110,70,255,.6);  animation-duration: 16s; animation-delay: 3s; }
-    .hero-welcome {
+    .hero-overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 22%, transparent 62%, #000 100%);
+    }
+    .hero-content {
+      position: relative;
       z-index: 2;
       text-align: center;
-      pointer-events: none;
+      padding: 0 20px;
+    }
+    .hero-content > * {
       opacity: 0;
-      animation: welcomeFadeIn 1.6s var(--ease) 0.6s forwards;
+      animation: heroIn 1.4s var(--ease) forwards;
+    }
+    .hero-eyebrow { animation-delay: 0.25s; }
+    .hero-welcome-title { animation-delay: 0.45s; }
+    .hero-welcome-sub { animation-delay: 0.65s; }
+    .hero-actions { animation-delay: 0.85s; }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(11px, 1.1vw, 13px);
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.62);
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 12px var(--orange-glow);
     }
     .hero-welcome-title {
       font-family: 'Montserrat', sans-serif;
@@ -181,116 +295,97 @@
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(13px, 1.7vw, 20px);
       font-weight: 300;
-      color: rgba(255,255,255,0.42);
+      color: rgba(255,255,255,0.5);
       letter-spacing: 0.26em;
       text-transform: lowercase;
     }
-    @keyframes welcomeFadeIn {
-      from { opacity: 0; transform: translate(-50%, calc(-50% + 32px)); }
-      to   { opacity: 1; transform: translate(-50%, -50%); }
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.85) 100%);
-      z-index: 1;
-    }
-    .hero-top {
-      position: relative;
-      z-index: 2;
+    .hero-actions {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 36px 48px;
-      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 48px;
     }
-    .hero-name {
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: clamp(13px, 1.6vw, 22px);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      line-height: 1;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 14px 28px;
+      border-radius: 50px;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s, border-color 0.3s;
     }
-    .hero-name .first { color: #fff; }
-    .hero-name .last {
-      background: linear-gradient(90deg, var(--orange), var(--orange-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .btn-primary {
+      background: var(--orange);
+      color: #000;
+      box-shadow: 0 8px 30px rgba(255,107,0,0.28);
     }
-    .hero-center {
+    .btn-primary:hover {
+      background: var(--orange-light);
+      box-shadow: 0 12px 40px rgba(255,107,0,0.42);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
       position: absolute;
       left: 50%;
-      top: 36px;
+      bottom: 30px;
       transform: translateX(-50%);
       z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-    }
-    .hero-email {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(12px, 1.2vw, 15px);
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.8);
-      border-bottom: 1px solid rgba(255,255,255,0.25);
-      padding-bottom: 5px;
-    }
-    .hero-bottom {
-      position: relative;
-      z-index: 2;
-      padding: 0 48px 80px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .hero-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(12px, 1.4vw, 16px);
-      letter-spacing: 0.2em;
+      gap: 12px;
+      font-size: 10px;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.45);
-      font-weight: 400;
+      transition: color 0.3s;
     }
-    .hero-scroll {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      opacity: 0.5;
-    }
+    .hero-scroll:hover { color: #fff; }
     .hero-scroll-line {
-      width: 40px;
-      height: 1px;
-      background: linear-gradient(to right, var(--orange), transparent);
+      position: relative;
+      width: 1px;
+      height: 44px;
+      overflow: hidden;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
     }
-    .hero-scroll-text {
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-    }
-    .scroll-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -40%;
+      width: 1px;
+      height: 40%;
       background: var(--orange);
-      animation: scrollPulse 2s infinite;
+      animation: scrollDrop 2.2s var(--ease) infinite;
     }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
+    @keyframes scrollDrop {
+      from { top: -40%; }
+      to   { top: 100%; }
     }
+    @media (max-height: 640px) { .hero-scroll { display: none; } }
 
     /* ============================================================
-       SECTION 2ABOUT
+       SECTION 2 · ABOUT
     ============================================================ */
     #about {
       position: relative;
-      padding: 130px 48px;
-      min-height: 100vh;
+      padding: 150px 48px 130px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -302,6 +397,7 @@
       inset: 0;
       background:
         linear-gradient(to bottom, transparent 65%, #000 100%),
+        linear-gradient(to top, transparent 75%, #000 100%),
         radial-gradient(ellipse at 90% 25%, var(--orange-glow) 0%, transparent 52%),
         radial-gradient(ellipse at 10% 75%, var(--green-glow) 0%, transparent 48%);
       z-index: 0;
@@ -368,10 +464,10 @@
     .lang-badge {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 7px 16px;
+      gap: 9px;
+      padding: 8px 16px;
       border-radius: 50px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.1);
       font-size: 13px;
       color: var(--gray-light);
       background: rgba(255,255,255,0.03);
@@ -380,7 +476,9 @@
     .lang-badge .level {
       color: var(--green);
       font-weight: 600;
-      font-size: 11px;
+      font-size: 10.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
     .about-photo-wrap {
       display: flex;
@@ -402,35 +500,9 @@
       height: 100%;
       object-fit: cover;
     }
-    .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(145deg, #0f0f0f 0%, #1c1c1c 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-    .photo-placeholder .initials {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 72px;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--green) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .photo-placeholder .hint {
-      font-size: 11px;
-      color: #333;
-      letter-spacing: 0.1em;
-      text-align: center;
-      padding: 0 16px;
-    }
 
     /* ============================================================
-       SECTION 3EXPERIENCE
+       SECTION 3 · EXPERIENCE
     ============================================================ */
     #experience {
       position: relative;
@@ -474,7 +546,9 @@
       align-items: center;
       min-width: 100px;
       position: relative;
+      padding: 4px 0;
     }
+    .career-node:hover .cn-role { color: #fff; }
     .cn-year {
       font-family: 'Montserrat', sans-serif;
       font-size: 11px;
@@ -551,8 +625,10 @@
       padding: 44px;
       position: relative;
       overflow: hidden;
+      scroll-margin-top: 96px;
       transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
     }
+    .exp-card:target { border-color: var(--border-hover); }
     .exp-card:hover {
       border-color: var(--border-hover);
       box-shadow: 0 4px 60px rgba(255,107,0,0.06), 0 0 0 1px rgba(255,107,0,0.08);
@@ -685,7 +761,7 @@
     .bayard-logo-text svg { flex-shrink: 0; }
 
     /* ============================================================
-       SECTION 4CREATIONS
+       SECTION 4 · CREATIONS
     ============================================================ */
     #creations {
       position: relative;
@@ -820,7 +896,7 @@
     }
 
     /* ============================================================
-       SECTION 5EDUCATION
+       SECTION 5 · EDUCATION
     ============================================================ */
     #education {
       position: relative;
@@ -908,7 +984,7 @@
     }
 
     /* ============================================================
-       SECTION 6CONTACT
+       SECTION 6 · CONTACT
     ============================================================ */
     #contact {
       position: relative;
@@ -942,6 +1018,13 @@
       cursor: default;
       user-select: none;
     }
+    .contact-actions {
+      display: inline-flex;
+      align-items: stretch;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
     .contact-email-pill {
       display: inline-block;
       font-family: 'Montserrat', sans-serif;
@@ -952,7 +1035,30 @@
       padding: 16px 48px;
       border-radius: 60px;
       background: rgba(255,107,0,0.04);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.4s var(--ease);
     }
+    .contact-email-pill:hover {
+      background: rgba(255,107,0,0.1);
+      border-color: rgba(255,107,0,0.55);
+      box-shadow: 0 0 40px rgba(255,107,0,0.15);
+    }
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 60px;
+      padding: 12px 22px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .copy-btn:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
+    .copy-btn.copied { color: var(--green); border-color: rgba(0,200,150,0.45); }
     .footer {
       position: relative;
       z-index: 1;
@@ -962,39 +1068,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
       font-size: 13px;
       color: var(--gray);
     }
+    .footer a { transition: color 0.2s; }
+    .footer a:hover { color: var(--orange); }
 
     /* ============================================================
-       SCROLL ANIMATIONS
+       SCROLL ANIMATIONS (only when JS runs, so content never stays hidden)
     ============================================================ */
-    .fade-up {
+    .js .fade-up,
+    .js .fade-left,
+    .js .fade-right {
       opacity: 0;
-      transform: translateY(44px);
       transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
     }
-    .fade-up.visible {
+    .js .fade-up { transform: translateY(44px); }
+    .js .fade-left { transform: translateX(-44px); }
+    .js .fade-right { transform: translateX(44px); }
+    .js .fade-up.visible,
+    .js .fade-left.visible,
+    .js .fade-right.visible {
       opacity: 1;
-      transform: translateY(0);
-    }
-    .fade-left {
-      opacity: 0;
-      transform: translateX(-44px);
-      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
-    }
-    .fade-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .fade-right {
-      opacity: 0;
-      transform: translateX(44px);
-      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
-    }
-    .fade-right.visible {
-      opacity: 1;
-      transform: translateX(0);
+      transform: none;
     }
 
     /* ============================================================
@@ -1016,7 +1113,6 @@
     }
     @media (max-width: 768px) {
       #about, #experience, #creations, #education, #contact { padding: 90px 24px; }
-      .hero-top, .hero-bottom { padding-left: 24px; padding-right: 24px; }
       .about-inner { grid-template-columns: 1fr; gap: 48px; }
       .about-photo-wrap { order: -1; }
       .about-photo { width: 200px; height: 250px; margin: 0 auto; }
@@ -1027,86 +1123,80 @@
       .edu-timeline { flex-direction: column; overflow-x: visible; gap: 40px; }
       .edu-item { min-width: unset; padding: 0; }
       .edu-line { display: none; }
-      .lang-switcher { top: 14px; right: 14px; }
-      .hero-center { display: none; }
-      .hero-email-mobile {
-        display: block;
-        font-size: 13px;
-        color: rgba(255,255,255,0.6);
-        letter-spacing: 0.08em;
-        margin-top: 8px;
-      }
       .footer { flex-direction: column; gap: 8px; text-align: center; }
-      .career-bar { gap: 0; }
+      .career-bar {
+        padding-right: 48px;
+        -webkit-mask-image: linear-gradient(to right, #000 78%, transparent);
+        mask-image: linear-gradient(to right, #000 78%, transparent);
+      }
       .career-node { min-width: 85px; }
+      .contact-email-pill { padding: 14px 28px; }
     }
-    @media (min-width: 769px) {
-      .hero-email-mobile { display: none; }
+
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .js .fade-up, .js .fade-left, .js .fade-right { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- LANGUAGE SWITCHER -->
-<div class="lang-switcher">
-  <button class="lang-btn active" data-lang="en" title="English">🇬🇧</button>
-  <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
-  <button class="lang-btn" data-lang="it" title="Italiano">🇮🇹</button>
-</div>
-
-<!-- STICKY NAV -->
-<nav class="nav" id="nav">
-  <a href="#about" data-key="nav_about">About</a>
-  <a href="#experience" data-key="nav_exp">Experience</a>
-  <a href="#creations" data-key="nav_portfolio">Portfolio</a>
-  <a href="#education" data-key="nav_edu">Education</a>
-  <a href="#contact" data-key="nav_contact">Contact</a>
-</nav>
+<!-- HEADER -->
+<header class="site-header" id="header">
+  <a class="brand" href="#hero" aria-label="Sacha Cames"><span class="first">Sacha&nbsp;</span><span class="last">Cames</span></a>
+  <nav class="nav" id="nav" aria-label="Main">
+    <a href="#about" data-key="nav_about">About</a>
+    <a href="#experience" data-key="nav_exp">Experience</a>
+    <a href="#creations" data-key="nav_portfolio">Portfolio</a>
+    <a href="#education" data-key="nav_edu">Education</a>
+    <a href="#contact" data-key="nav_contact">Contact</a>
+  </nav>
+  <div class="header-actions">
+    <div class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" type="button" data-lang="en" lang="en" title="English">EN</button>
+      <button class="lang-btn" type="button" data-lang="fr" lang="fr" title="Français">FR</button>
+      <button class="lang-btn" type="button" data-lang="it" lang="it" title="Italiano">IT</button>
+    </div>
+    <button class="menu-btn" id="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
+  </div>
+</header>
 
 <!-- ============================================================
-     SECTION 1HERO
+     SECTION 1 · HERO
 ============================================================ -->
 <section id="hero">
-  <div id="hero-bg">
-    <span class="sk s1"></span>
-    <span class="sk s2"></span>
-    <span class="sk s3"></span>
-    <span class="sk s4"></span>
-    <span class="sk s5"></span>
-    <span class="sk s6"></span>
-    <span class="sk s7"></span>
-    <span class="sk s8"></span>
+  <div id="hero-bg" aria-hidden="true">
+    <canvas id="starfield"></canvas>
   </div>
   <div class="hero-overlay"></div>
 
-  <div class="hero-welcome">
-    <div class="hero-welcome-title" data-key="hero_welcome">Bienvenue.</div>
-    <div class="hero-welcome-sub" data-key="hero_sub">faisons connaissance</div>
-  </div>
-
-  <div class="hero-top">
-    <div class="hero-name">
-      <span class="first">SACHA&nbsp;</span><span class="last">CAMES</span>
-      <div class="hero-email-mobile">cames.sacha@gmail.com</div>
+  <div class="hero-content">
+    <h1 class="visually-hidden">Sacha Cames · Manager &amp; Consultant</h1>
+    <div class="hero-eyebrow" data-key="hero_tagline">Manager · Consultant · Builder</div>
+    <div class="hero-welcome-title" data-key="hero_welcome">Welcome.</div>
+    <div class="hero-welcome-sub" data-key="hero_sub">let's get acquainted</div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:cames.sacha@gmail.com" data-key="hero_cta_contact">Contact me</a>
+      <a class="btn btn-ghost" href="#experience" data-key="hero_cta_journey">View my journey</a>
     </div>
   </div>
 
-  <div class="hero-center">
-    <div class="hero-email">cames.sacha@gmail.com</div>
-  </div>
-
-  <div class="hero-bottom">
-    <div class="hero-tagline" data-key="hero_tagline">Manager · Consultant · Builder</div>
-    <div class="hero-scroll">
-      <div class="scroll-dot"></div>
-      <div class="hero-scroll-line"></div>
-      <div class="hero-scroll-text" data-key="hero_scroll">Scroll to explore</div>
-    </div>
-  </div>
+  <a class="hero-scroll" href="#about">
+    <span data-key="hero_scroll">Scroll to explore</span>
+    <span class="hero-scroll-line"></span>
+  </a>
 </section>
 
 <!-- ============================================================
-     SECTION 2ABOUT
+     SECTION 2 · ABOUT
 ============================================================ -->
 <section id="about">
   <div class="about-inner">
@@ -1118,10 +1208,10 @@
       <blockquote class="about-motto">"Live in the future, then build what's missing."</blockquote>
       <p class="about-cta" data-key="about_cta">Let's build it together!</p>
       <div class="lang-badges">
-        <div class="lang-badge">🇮🇹 Italian <span class="level" data-key="native">Native</span></div>
-        <div class="lang-badge">🇫🇷 French <span class="level" data-key="native">Native</span></div>
-        <div class="lang-badge">🇬🇧 English <span class="level">C1</span></div>
-        <div class="lang-badge">🇪🇸 Spanish <span class="level">C1</span></div>
+        <div class="lang-badge"><span data-key="lang_it">Italian</span> <span class="level" data-key="native">Native</span></div>
+        <div class="lang-badge"><span data-key="lang_fr">French</span> <span class="level" data-key="native">Native</span></div>
+        <div class="lang-badge"><span data-key="lang_en">English</span> <span class="level">C1</span></div>
+        <div class="lang-badge"><span data-key="lang_es">Spanish</span> <span class="level">C1</span></div>
       </div>
     </div>
     <div class="about-photo-wrap fade-right" style="transition-delay:0.18s">
@@ -1133,7 +1223,7 @@
 </section>
 
 <!-- ============================================================
-     SECTION 3EXPERIENCE
+     SECTION 3 · EXPERIENCE
 ============================================================ -->
 <section id="experience">
   <div class="exp-inner">
@@ -1144,47 +1234,47 @@
 
     <!-- Career evolution bar -->
     <div class="career-bar fade-up" style="transition-delay:0.1s">
-      <div class="career-node">
+      <a class="career-node" href="#exp-bayard">
         <div class="cn-year">2020</div>
         <div class="cn-dot"></div>
         <div class="cn-role">Digital PM<br>Proprioo</div>
-      </div>
+      </a>
       <div class="career-connector"></div>
-      <div class="career-node">
+      <a class="career-node" href="#exp-bayard">
         <div class="cn-year">2020</div>
         <div class="cn-dot"></div>
-        <div class="cn-role">Chef de Projet<br>Bayard</div>
-      </div>
+        <div class="cn-role"><span data-key="cn_pm">Project Manager</span><br>Bayard</div>
+      </a>
       <div class="career-connector active"></div>
-      <div class="career-node">
+      <a class="career-node" href="#exp-capgemini">
         <div class="cn-year">2021</div>
         <div class="cn-dot"></div>
         <div class="cn-role">Consultant<br>Capgemini</div>
-      </div>
+      </a>
       <div class="career-connector active"></div>
-      <div class="career-node hl">
+      <a class="career-node hl" href="#exp-gireve">
         <div class="cn-year">2024</div>
         <div class="cn-dot"></div>
         <div class="cn-role">Senior Consultant<br>JS × Gireve</div>
-      </div>
+      </a>
       <div class="career-connector active"></div>
-      <div class="career-node hl">
+      <a class="career-node hl" href="#exp-kering">
         <div class="cn-year">2025</div>
         <div class="cn-dot"></div>
         <div class="cn-role">Manager<br>JS × Kering</div>
-      </div>
+      </a>
       <div class="career-connector evolving"></div>
-      <div class="career-node curr">
+      <a class="career-node curr" href="#exp-altavia">
         <div class="cn-year">2026 →</div>
         <div class="cn-dot"></div>
         <div class="cn-role">Manager<br>JS × Altavia</div>
-      </div>
+      </a>
     </div>
 
     <div class="exp-cards">
 
       <!-- Julhiet Sterwen / Altavia -->
-      <div class="exp-card fade-up">
+      <div class="exp-card fade-up" id="exp-altavia">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Manager</div>
@@ -1212,7 +1302,7 @@
             <div class="kpi-lbl" data-key="kpi_records">Client records processed</div>
           </div>
           <div class="kpi">
-            <div class="kpi-val">1Md€</div>
+            <div class="kpi-val" data-key="kpi_1b">€1B</div>
             <div class="kpi-lbl" data-key="kpi_revenue">Revenue covered</div>
           </div>
           <div class="kpi">
@@ -1222,14 +1312,14 @@
         </div>
       </div>
 
-      <!-- Julhiet SterwenManager / Kering -->
-      <div class="exp-card fade-up" style="transition-delay:0.05s">
+      <!-- Julhiet Sterwen · Manager / Kering -->
+      <div class="exp-card fade-up" id="exp-kering" style="transition-delay:0.05s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Manager</div>
             <div class="exp-role" data-key="exp2_role">MDM Team Director</div>
             <div class="exp-company">Julhiet Sterwen · Kering</div>
-            <div class="exp-period">Nov. 2025 → May 2026</div>
+            <div class="exp-period" data-key="exp2_period">Nov. 2025 → May 2026</div>
           </div>
           <div class="exp-logos">
             <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;" loading="lazy" decoding="async">
@@ -1243,7 +1333,7 @@
             <div class="kpi-lbl" data-key="kpi_vendors">Vendors migrated</div>
           </div>
           <div class="kpi">
-            <div class="kpi-val counter" data-target="1000" data-suffix="/mo+">0</div>
+            <div class="kpi-val counter" data-target="1000" data-suffix-key="suffix_month">0</div>
             <div class="kpi-lbl" data-key="kpi_pace">Monthly pace</div>
           </div>
           <div class="kpi">
@@ -1255,14 +1345,14 @@
             <div class="kpi-lbl" data-key="kpi_stakeholders">Stakeholders</div>
           </div>
           <div class="kpi">
-            <div class="kpi-val">+1Md€</div>
+            <div class="kpi-val" data-key="kpi_1b_plus">+€1B</div>
             <div class="kpi-lbl" data-key="kpi_transactions">Transactions managed</div>
           </div>
         </div>
       </div>
 
-      <!-- Julhiet SterwenSenior Consultant / Gireve -->
-      <div class="exp-card fade-up" style="transition-delay:0.1s">
+      <!-- Julhiet Sterwen · Senior Consultant / Gireve -->
+      <div class="exp-card fade-up" id="exp-gireve" style="transition-delay:0.1s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Senior Consultant</div>
@@ -1288,14 +1378,14 @@
         </div>
       </div>
 
-      <!-- CapgeminiBNP -->
-      <div class="exp-card green-top fade-up" style="transition-delay:0.15s">
+      <!-- Capgemini · BNP -->
+      <div class="exp-card green-top fade-up" id="exp-capgemini" style="transition-delay:0.15s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Consultant</div>
             <div class="exp-role" data-key="exp4_role">Project Manager · BNP Corporate Global Operations</div>
             <div class="exp-company">Capgemini</div>
-            <div class="exp-period" style="color:var(--green)">Sept. 2021 → Apr. 2025</div>
+            <div class="exp-period" data-key="exp4_period">Sept. 2021 → Apr. 2025</div>
           </div>
           <div class="exp-logos">
             <img src="assets/logos/capgemini.svg" alt="Capgemini" class="exp-logo" style="height:44px; filter:none; opacity:0.9;" loading="lazy" decoding="async">
@@ -1304,7 +1394,7 @@
         <p class="exp-desc" data-key="exp4_desc">Led 3 major international transformation programs across FR, UK, DE, ES, IT, PT, CZ. Deployed a logistics asset management platform (−5 days of storage), an AI customer experience tool, and an inventory management system. Governed Agile/Scrum projects end-to-end: epics, user stories, sprint planning and review, Copil & Steerco management.</p>
         <div class="exp-kpis">
           <div class="kpi">
-            <div class="kpi-val counter" data-target="10" data-suffix="M€" data-green="true">0</div>
+            <div class="kpi-val counter" data-target="10" data-suffix="M€">0</div>
             <div class="kpi-lbl" data-key="kpi_saving">Cost saving 2024</div>
           </div>
           <div class="kpi">
@@ -1323,13 +1413,13 @@
       </div>
 
       <!-- Bayard + Proprioo -->
-      <div class="exp-card fade-up" style="transition-delay:0.2s">
+      <div class="exp-card fade-up" id="exp-bayard" style="transition-delay:0.2s">
         <div class="exp-card-head">
           <div>
-            <div class="exp-badge">Assistant → Chef de Projet</div>
+            <div class="exp-badge" data-key="exp5_badge">Assistant → Project Manager</div>
             <div class="exp-role" data-key="exp5_role">Digital Project Manager</div>
             <div class="exp-company">Bayard · Proprioo</div>
-            <div class="exp-period">Jan. 2020 → Nov. 2021</div>
+            <div class="exp-period" data-key="exp5_period">Jan. 2020 → Nov. 2021</div>
           </div>
           <div class="exp-logos">
             <div class="bayard-logo-text">
@@ -1346,7 +1436,7 @@
 </section>
 
 <!-- ============================================================
-     SECTION 4CREATIONS
+     SECTION 4 · CREATIONS
 ============================================================ -->
 <section id="creations">
   <div class="creations-inner">
@@ -1421,7 +1511,7 @@
           <div class="card-coming-ph">🔧</div>
         </div>
         <div class="card-body">
-          <div class="card-name">AltaviaData Cleaner</div>
+          <div class="card-name">Altavia Data Cleaner</div>
           <p class="card-desc" data-key="c6_desc">A client database cleaning tool for e-invoicing migration, in active development for Altavia.</p>
           <span class="coming-badge"><span class="coming-dot"></span><span data-key="in_progress">In progress</span></span>
         </div>
@@ -1432,7 +1522,7 @@
 </section>
 
 <!-- ============================================================
-     SECTION 5EDUCATION
+     SECTION 5 · EDUCATION
 ============================================================ -->
 <section id="education">
   <div class="edu-inner">
@@ -1491,19 +1581,24 @@
 </section>
 
 <!-- ============================================================
-     SECTION 6CONTACT
+     SECTION 6 · CONTACT
 ============================================================ -->
 <section id="contact">
   <div class="contact-inner">
     <span class="section-label" style="text-align:center;" data-key="contact_label">Get in touch</span>
     <h2 class="contact-title fade-up" data-key="contact_title">Contact me.</h2>
-    <div class="contact-email-pill fade-up" style="transition-delay:0.12s">
-      cames.sacha@gmail.com
+    <div class="contact-actions fade-up" style="transition-delay:0.12s">
+      <a class="contact-email-pill" href="mailto:cames.sacha@gmail.com">cames.sacha@gmail.com</a>
+      <button class="copy-btn" type="button" data-copy="cames.sacha@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        <span data-key="contact_copy">Copy</span>
+      </button>
     </div>
   </div>
   <div class="footer fade-up" style="transition-delay:0.2s">
     <span>© 2026 Sacha Cames</span>
     <span data-key="footer">Made with passion</span>
+    <a href="#hero" data-key="back_top">Back to top ↑</a>
   </div>
 </section>
 
@@ -1518,6 +1613,23 @@ const i18n = {
     hero_sub: "let's get acquainted",
     hero_tagline: "Manager · Consultant · Builder",
     hero_scroll: "Scroll to explore",
+    hero_cta_contact: "Contact me",
+    hero_cta_journey: "View my journey",
+    lang_it: "Italian",
+    lang_fr: "French",
+    lang_en: "English",
+    lang_es: "Spanish",
+    cn_pm: "Project Manager",
+    exp2_period: "Nov. 2025 → May 2026",
+    exp4_period: "Sept. 2021 → Apr. 2025",
+    exp5_period: "Jan. 2020 → Nov. 2021",
+    exp5_badge: "Assistant → Project Manager",
+    kpi_1b: "€1B",
+    kpi_1b_plus: "+€1B",
+    suffix_month: "/mo+",
+    contact_copy: "Copy",
+    contact_copied: "Copied!",
+    back_top: "Back to top ↑",
     nav_about: "About",
     nav_exp: "Experience",
     nav_portfolio: "Portfolio",
@@ -1586,6 +1698,23 @@ const i18n = {
     hero_sub: "faisons connaissance",
     hero_tagline: "Manager · Consultant · Créateur",
     hero_scroll: "Défiler pour explorer",
+    hero_cta_contact: "Me contacter",
+    hero_cta_journey: "Découvrir mon parcours",
+    lang_it: "Italien",
+    lang_fr: "Français",
+    lang_en: "Anglais",
+    lang_es: "Espagnol",
+    cn_pm: "Chef de Projet",
+    exp2_period: "Nov. 2025 → Mai 2026",
+    exp4_period: "Sept. 2021 → Avr. 2025",
+    exp5_period: "Janv. 2020 → Nov. 2021",
+    exp5_badge: "Assistant → Chef de Projet",
+    kpi_1b: "1Md€",
+    kpi_1b_plus: "+1Md€",
+    suffix_month: "/mois+",
+    contact_copy: "Copier",
+    contact_copied: "Copié !",
+    back_top: "Haut de page ↑",
     nav_about: "À propos",
     nav_exp: "Parcours",
     nav_portfolio: "Portfolio",
@@ -1654,6 +1783,23 @@ const i18n = {
     hero_sub: "facciamo conoscenza",
     hero_tagline: "Manager · Consulente · Creatore",
     hero_scroll: "Scorri per esplorare",
+    hero_cta_contact: "Contattami",
+    hero_cta_journey: "Scopri il mio percorso",
+    lang_it: "Italiano",
+    lang_fr: "Francese",
+    lang_en: "Inglese",
+    lang_es: "Spagnolo",
+    cn_pm: "Project Manager",
+    exp2_period: "Nov. 2025 → Mag. 2026",
+    exp4_period: "Set. 2021 → Apr. 2025",
+    exp5_period: "Gen. 2020 → Nov. 2021",
+    exp5_badge: "Assistant → Project Manager",
+    kpi_1b: "1Mld€",
+    kpi_1b_plus: "+1Mld€",
+    suffix_month: "/mese+",
+    contact_copy: "Copia",
+    contact_copied: "Copiato!",
+    back_top: "Torna su ↑",
     nav_about: "Chi sono",
     nav_exp: "Esperienza",
     nav_portfolio: "Portfolio",
@@ -1719,20 +1865,67 @@ const i18n = {
   }
 };
 
-/* ---- Language switcher ---- */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- Language switcher (remembers the choice, else follows the browser) ---- */
+const LANGS = ['en', 'fr', 'it'];
+const LOCALES = { en: 'en-US', fr: 'fr-FR', it: 'it-IT' };
 let currentLang = 'en';
 
-function setLang(lang) {
+function setLang(lang, remember) {
   currentLang = lang;
   document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    const on = b.dataset.lang === lang;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', on);
+  });
   document.querySelectorAll('[data-key]').forEach(el => {
     const val = i18n[lang][el.dataset.key];
     if (val !== undefined) el.innerHTML = val;
   });
+  document.querySelectorAll('.counter[data-counted]').forEach(el => {
+    el.textContent = formatCounter(el, Number(el.dataset.value || 0));
+  });
+  if (remember) {
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
 }
 
-document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+function initialLang() {
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  if (LANGS.includes(saved)) return saved;
+  const prefs = (navigator.languages || [navigator.language || 'en']).map(l => String(l).slice(0, 2).toLowerCase());
+  return prefs.find(l => LANGS.includes(l)) || 'en';
+}
+
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang, true)));
+
+/* ---- Header: solid background once scrolled, active section, mobile menu ---- */
+const header = document.getElementById('header');
+const menuBtn = document.getElementById('menu-btn');
+const navLinks = [...document.querySelectorAll('.nav a')];
+
+const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+function setMenu(open) {
+  header.classList.toggle('menu-open', open);
+  menuBtn.setAttribute('aria-expanded', open);
+}
+menuBtn.addEventListener('click', () => setMenu(!header.classList.contains('menu-open')));
+navLinks.forEach(a => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+document.querySelectorAll('body > section').forEach(sec => spy.observe(sec));
 
 /* ---- Scroll fade animations ---- */
 const fadeObserver = new IntersectionObserver((entries) => {
@@ -1741,16 +1934,21 @@ const fadeObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => fadeObserver.observe(el));
 
-/* ---- Counter animation ---- */
+/* ---- Counter animation (numbers follow the page language) ---- */
+function formatCounter(el, n) {
+  const suffix = el.dataset.suffixKey ? i18n[currentLang][el.dataset.suffixKey] : (el.dataset.suffix || '');
+  return n.toLocaleString(LOCALES[currentLang]) + suffix;
+}
+
 function animateCounter(el) {
   const target = parseInt(el.dataset.target, 10);
-  const suffix = el.dataset.suffix || '';
-  const duration = 1800;
+  const duration = reduceMotion ? 0 : 1800;
   const start = performance.now();
   const easeOut = t => 1 - Math.pow(1 - t, 3);
   const step = now => {
-    const p = Math.min((now - start) / duration, 1);
-    el.textContent = Math.round(easeOut(p) * target).toLocaleString() + suffix;
+    const p = duration ? Math.min((now - start) / duration, 1) : 1;
+    el.dataset.value = Math.round(easeOut(p) * target);
+    el.textContent = formatCounter(el, Number(el.dataset.value));
     if (p < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
@@ -1767,15 +1965,256 @@ const counterObs = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
 
-/* ---- Sticky nav reveal (after hero scrolls out) ---- */
-const navEl = document.getElementById('nav');
-const navObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => navEl.classList.toggle('visible', !e.isIntersecting));
-}, { threshold: 0.15 });
-navObs.observe(document.getElementById('hero'));
+/* ---- Copy email ---- */
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) { return; }
+  const label = btn.querySelector('[data-key]');
+  btn.classList.add('copied');
+  label.textContent = i18n[currentLang].contact_copied;
+  clearTimeout(btn.resetTimer);
+  btn.resetTimer = setTimeout(() => {
+    btn.classList.remove('copied');
+    label.textContent = i18n[currentLang].contact_copy;
+  }, 1800);
+}));
+
+/* ---- Hero starfield: slow-drifting constellation that reacts to the cursor ---- */
+(function starfield() {
+  const hero = document.getElementById('hero');
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return;
+
+  const TAU = Math.PI * 2;
+  const TINTS = ['255,255,255', '214,224,255', '180,198,255', '255,224,190'];
+  const POINTER_REACH = 190;   // cursor links to stars within this radius
+  const PART_RADIUS = 180;     // stars part around the cursor within this radius
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  let W = 0, H = 0, link = 140, dust = [], nodes = [];
+  let raf = 0, last = 0, onScreen = true;
+  const ptr = { x: 0, y: 0, on: false, glow: 0 };
+  const tilt = { x: 0, y: 0 };
+
+  // Soft glow stamped behind the constellation stars (much cheaper than shadowBlur)
+  const halo = document.createElement('canvas');
+  halo.width = halo.height = 64;
+  const hctx = halo.getContext('2d');
+  const hg = hctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  hg.addColorStop(0, 'rgba(225,232,255,0.85)');
+  hg.addColorStop(0.2, 'rgba(160,180,255,0.28)');
+  hg.addColorStop(1, 'rgba(120,140,255,0)');
+  hctx.fillStyle = hg;
+  hctx.fillRect(0, 0, 64, 64);
+
+  function populate() {
+    const area = W * H;
+    link = Math.max(100, Math.min(160, W * 0.11));
+    dust = Array.from({ length: Math.min(900, Math.round(area / 2000)) }, () => {
+      const z = Math.pow(Math.random(), 1.8);   // depth: most stars far away, a few close
+      return {
+        x: rand(0, W), y: rand(0, H), z,
+        r: 0.35 + z * 1.15, a: 0.3 + z * 0.6,
+        tw: rand(0.5, 1.8), ph: rand(0, TAU),
+        c: TINTS[Math.random() < 0.1 ? 3 : Math.floor(rand(0, 3))]
+      };
+    }).sort((p, q) => (p.c < q.c ? -1 : 1));  // grouped by tint to limit fillStyle changes
+    // Constellation stars live in a margin around the screen so wrapping happens out of sight
+    nodes = Array.from({ length: Math.round(Math.max(34, Math.min(110, area / 13000))) }, () => ({
+      x: rand(-link, W + link), y: rand(-link, H + link),
+      vx: rand(-0.14, 0.14), vy: rand(-0.09, 0.09),
+      r: rand(0.9, 2.1), ph: rand(0, TAU),
+      ox: 0, oy: 0, sx: 0, sy: 0
+    }));
+  }
+
+  function resize() {
+    const w = hero.clientWidth, h = hero.clientHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (w !== W || !nodes.length) {
+      W = w; H = h;
+      populate();
+    } else if (h !== H) {
+      // Mobile address bar: only the height moved, stretch the sky instead of reshuffling it
+      const k = h / H;
+      dust.forEach(s => { s.y *= k; });
+      nodes.forEach(n => { n.y *= k; });
+      H = h;
+    }
+  }
+
+  function step(dt) {
+    const tx = ptr.on ? ptr.x / W - 0.5 : 0;
+    const ty = ptr.on ? ptr.y / H - 0.5 : 0;
+    tilt.x += (tx - tilt.x) * Math.min(1, 0.04 * dt);
+    tilt.y += (ty - tilt.y) * Math.min(1, 0.04 * dt);
+    ptr.glow += ((ptr.on ? 1 : 0) - ptr.glow) * Math.min(1, 0.06 * dt);
+
+    for (const s of dust) {
+      s.x -= (0.015 + s.z * 0.07) * dt;
+      if (s.x < -2) s.x += W + 4;
+    }
+
+    const span = link * 2;
+    for (const n of nodes) {
+      n.x += n.vx * dt;
+      n.y += n.vy * dt;
+      if (n.x < -link) n.x += W + span; else if (n.x > W + link) n.x -= W + span;
+      if (n.y < -link) n.y += H + span; else if (n.y > H + link) n.y -= H + span;
+
+      // Parallax, then a gentle push away from the cursor (eased, never accumulates)
+      const bx = n.x - tilt.x * 36, by = n.y - tilt.y * 36;
+      let gx = 0, gy = 0;
+      if (ptr.on) {
+        const dx = bx - ptr.x, dy = by - ptr.y, d = Math.hypot(dx, dy);
+        if (d < PART_RADIUS && d > 0.01) {
+          const f = Math.pow(1 - d / PART_RADIUS, 2) * 30;
+          gx = dx / d * f;
+          gy = dy / d * f;
+        }
+      }
+      n.ox += (gx - n.ox) * Math.min(1, 0.08 * dt);
+      n.oy += (gy - n.oy) * Math.min(1, 0.08 * dt);
+      n.sx = bx + n.ox;
+      n.sy = by + n.oy;
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    const px = tilt.x * 24, py = tilt.y * 24;
+
+    // Background dust: drifts left, twinkles, deeper layers move less
+    let tint = '';
+    for (const s of dust) {
+      if (s.c !== tint) { tint = s.c; ctx.fillStyle = `rgb(${tint})`; }
+      ctx.globalAlpha = s.a * (0.55 + 0.45 * Math.sin(t * s.tw + s.ph));
+      const x = s.x - px * s.z, y = s.y - py * s.z;
+      if (s.r < 1) {
+        ctx.fillRect(x, y, s.r * 1.6, s.r * 1.6);
+      } else {
+        ctx.beginPath();
+        ctx.arc(x, y, s.r, 0, TAU);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // Constellation lines: longer and brighter around the cursor
+    ctx.lineWidth = 0.8;
+    const reach = link * 1.5;
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = a.sx - b.sx, dy = a.sy - b.sy;
+        if (dx > reach || dx < -reach || dy > reach || dy < -reach) continue;
+        const d = Math.hypot(dx, dy);
+        let boost = 0;
+        if (ptr.glow > 0.01) {
+          const m = Math.hypot((a.sx + b.sx) / 2 - ptr.x, (a.sy + b.sy) / 2 - ptr.y);
+          boost = Math.max(0, 1 - m / 260) * ptr.glow;
+        }
+        const L = link * (1 + 0.5 * boost);
+        if (d > L) continue;
+        ctx.strokeStyle = `rgba(185,200,255,${((1 - d / L) * (0.28 + 0.5 * boost)).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(a.sx, a.sy);
+        ctx.lineTo(b.sx, b.sy);
+        ctx.stroke();
+      }
+    }
+
+    // The cursor joins the constellation with a warm light
+    if (ptr.glow > 0.01) {
+      const g = ctx.createRadialGradient(ptr.x, ptr.y, 0, ptr.x, ptr.y, 240);
+      g.addColorStop(0, `rgba(255,140,60,${(0.1 * ptr.glow).toFixed(3)})`);
+      g.addColorStop(1, 'rgba(255,140,60,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(ptr.x - 240, ptr.y - 240, 480, 480);
+      ctx.lineWidth = 1;
+      for (const n of nodes) {
+        const d = Math.hypot(n.sx - ptr.x, n.sy - ptr.y);
+        if (d > POINTER_REACH) continue;
+        ctx.strokeStyle = `rgba(255,170,110,${((1 - d / POINTER_REACH) * 0.85 * ptr.glow).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(ptr.x, ptr.y);
+        ctx.lineTo(n.sx, n.sy);
+        ctx.stroke();
+      }
+    }
+
+    // Constellation stars with their halo, brighter near the cursor
+    for (const n of nodes) {
+      if (n.sx < -20 || n.sx > W + 20 || n.sy < -20 || n.sy > H + 20) continue;
+      const tw = 0.7 + 0.3 * Math.sin(t * 0.8 + n.ph);
+      const near = ptr.glow > 0.01 ? Math.max(0, 1 - Math.hypot(n.sx - ptr.x, n.sy - ptr.y) / 200) * ptr.glow : 0;
+      const size = n.r * (9 + near * 6);
+      ctx.globalAlpha = Math.min(1, 0.35 * tw + near * 0.5);
+      ctx.drawImage(halo, n.sx - size / 2, n.sy - size / 2, size, size);
+      ctx.globalAlpha = Math.min(1, 0.75 * tw + near * 0.3);
+      ctx.fillStyle = '#F0F4FF';
+      ctx.beginPath();
+      ctx.arc(n.sx, n.sy, n.r * (1 + near * 0.35), 0, TAU);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function frame(now) {
+    const dt = Math.min(3, (now - last) / 16.667);
+    last = now;
+    step(dt);
+    draw(now / 1000);
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (raf || reduceMotion || !onScreen || document.hidden) return;
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+  }
+  function still() {
+    step(0);
+    draw(performance.now() / 1000);
+  }
+
+  function track(e) {
+    const r = canvas.getBoundingClientRect();
+    ptr.x = e.clientX - r.left;
+    ptr.y = e.clientY - r.top;
+    ptr.on = true;
+  }
+  hero.addEventListener('pointermove', track, { passive: true });
+  hero.addEventListener('pointerdown', track, { passive: true });
+  hero.addEventListener('pointerleave', () => { ptr.on = false; });
+  hero.addEventListener('pointercancel', () => { ptr.on = false; });
+  hero.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') ptr.on = false; });
+
+  let resizeTimer;
+  new ResizeObserver(() => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { resize(); if (!raf) still(); }, 120);
+  }).observe(hero);
+  new IntersectionObserver(([e]) => {
+    onScreen = e.isIntersecting;
+    if (onScreen) start(); else stop();
+  }).observe(hero);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+
+  resize();
+  still();
+  start();
+})();
 
 /* ---- Init ---- */
-setLang('en');
+setLang(initialLang(), false);
 </script>
 </body>
 </html>
