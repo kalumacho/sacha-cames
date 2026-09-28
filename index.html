@@ -254,6 +254,7 @@
     .hero-welcome-title { animation-delay: 0.45s; }
     .hero-welcome-sub { animation-delay: 0.65s; }
     .hero-actions { animation-delay: 0.85s; }
+    .hero-hint { animation-delay: 1.1s; }
     @keyframes heroIn {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: none; }
@@ -306,6 +307,22 @@
       gap: 14px;
       margin-top: 48px;
     }
+    .hero-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 26px;
+      padding: 6px 12px;
+      border: 0;
+      border-radius: 50px;
+      background: none;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s, background 0.2s;
+    }
+    .hero-hint:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .hero-hint kbd { font-size: 11.5px; padding: 3px 7px; color: #fff; border-color: rgba(255,255,255,0.28); }
+    .hint-star { color: var(--orange); font-size: 11px; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -1700,6 +1717,7 @@
       <a class="btn btn-primary" href="#contact" data-key="hero_cta_contact">Contact me</a>
       <a class="btn btn-ghost" href="#experience" data-key="hero_cta_journey">View my journey</a>
     </div>
+    <button class="hero-hint" id="hero-hint" type="button" data-open-palette></button>
   </div>
 
   <a class="hero-scroll" href="#about">
@@ -2196,6 +2214,8 @@ const i18n = {
     hero_sub: "let's get acquainted",
     hero_tagline: "Manager · Consultant · Builder",
     hero_scroll: "Scroll to explore",
+    hint_keys: "Tip: try {keys} to explore the whole site",
+    hint_touch: "Tip: tap here to search the whole site",
     cmdk_live: "Live app",
     cmdk_btn: "Search",
     cmdk_placeholder: "Search a mission, a skill, an app…",
@@ -2315,6 +2335,8 @@ const i18n = {
     hero_sub: "faisons connaissance",
     hero_tagline: "Manager · Consultant · Créateur",
     hero_scroll: "Défiler pour explorer",
+    hint_keys: "Astuce : essayez {keys} pour explorer tout le site",
+    hint_touch: "Astuce : touchez ici pour chercher dans tout le site",
     cmdk_live: "App en ligne",
     cmdk_btn: "Rechercher",
     cmdk_placeholder: "Chercher une mission, une compétence, une app…",
@@ -2434,6 +2456,8 @@ const i18n = {
     hero_sub: "facciamo conoscenza",
     hero_tagline: "Manager · Consulente · Creatore",
     hero_scroll: "Scorri per esplorare",
+    hint_keys: "Suggerimento: prova {keys} per esplorare tutto il sito",
+    hint_touch: "Suggerimento: tocca qui per cercare in tutto il sito",
     cmdk_live: "App online",
     cmdk_btn: "Cerca",
     cmdk_placeholder: "Cerca una missione, una competenza, un'app…",
@@ -2552,6 +2576,15 @@ const i18n = {
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const EMAIL = 'cames.sacha@gmail.com';
+const IS_MAC = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
+const IS_TOUCH = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+/* Hero hint: Ctrl+K on Windows/Linux, Cmd+K on Mac, a tap on touch screens */
+function renderHint() {
+  const keys = IS_MAC ? '<kbd>⌘</kbd><kbd>K</kbd>' : '<kbd>Ctrl</kbd><kbd>K</kbd>';
+  const text = IS_TOUCH ? i18n[currentLang].hint_touch : i18n[currentLang].hint_keys.replace('{keys}', keys);
+  document.getElementById('hero-hint').innerHTML = '<span class="hint-star" aria-hidden="true">✦</span>' + text;
+}
 
 /* ---- Language switcher (remembers the choice, else follows the browser) ---- */
 const LANGS = ['en', 'fr', 'it'];
@@ -2575,6 +2608,7 @@ function setLang(lang, remember) {
   });
   refreshMore();
   updateComposer();
+  renderHint();
   if (remember) {
     try { localStorage.setItem('lang', lang); } catch (e) {}
   }
@@ -3016,9 +3050,7 @@ document.querySelectorAll('.chip[data-intent]').forEach(chip => chip.addEventLis
   const root = document.getElementById('cmdk');
   const input = document.getElementById('cmdk-input');
   const list = document.getElementById('cmdk-list');
-  const opener = document.getElementById('cmdk-open');
-  const isMac = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
-  document.querySelectorAll('.cmdk-kbd').forEach(k => { k.textContent = isMac ? '⌘K' : 'Ctrl K'; });
+  document.querySelectorAll('.cmdk-kbd').forEach(k => { k.textContent = IS_MAC ? '⌘K' : 'Ctrl K'; });
 
   const svg = d => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const ICONS = {
@@ -3153,7 +3185,7 @@ document.querySelectorAll('.chip[data-intent]').forEach(chip => chip.addEventLis
     setTimeout(it.run, 30);
   }
 
-  opener.addEventListener('click', open);
+  document.querySelectorAll('#cmdk-open, [data-open-palette]').forEach(b => b.addEventListener('click', open));
   root.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) close(); });
   input.addEventListener('input', () => { active = 0; render(); });
   list.addEventListener('mousemove', e => {
