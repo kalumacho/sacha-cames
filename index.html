@@ -385,7 +385,7 @@
     ============================================================ */
     #about {
       position: relative;
-      padding: 150px 48px 130px;
+      padding: 110px 48px 130px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -407,10 +407,6 @@
       z-index: 1;
       max-width: 1100px;
       width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 80px;
-      align-items: center;
     }
     .section-label {
       display: block;
@@ -433,72 +429,176 @@
       background-clip: text;
     }
     .about-bio {
-      font-size: 16px;
-      line-height: 1.85;
+      font-size: 15.5px;
+      line-height: 1.8;
       color: rgba(255,255,255,0.68);
-      margin-bottom: 24px;
-      max-width: 600px;
+      margin-bottom: 18px;
     }
-    .about-motto {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 17px;
-      font-style: italic;
-      color: var(--orange-light);
-      border-left: 2px solid var(--orange);
-      padding-left: 20px;
-      margin: 32px 0 20px;
-      line-height: 1.55;
+    .about-bio:last-child { margin-bottom: 0; }
+
+    /* Bento grid: each fact gets its own tile */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-areas:
+        "bio   bio   photo now"
+        "bio   bio   lang  world"
+        "motto motto motto motto";
+      gap: 16px;
     }
-    .about-cta {
-      font-size: 15px;
-      color: var(--green);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-    .lang-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 36px;
-    }
-    .lang-badge {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 8px 16px;
-      border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.1);
-      font-size: 13px;
-      color: var(--gray-light);
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(4px);
-    }
-    .lang-badge .level {
-      color: var(--green);
-      font-weight: 600;
-      font-size: 10.5px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .about-photo-wrap {
-      display: flex;
-      justify-content: center;
-    }
-    .about-photo {
-      width: 260px;
-      height: 320px;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(255,107,0,0.2);
-      box-shadow:
-        0 0 50px rgba(255,107,0,0.15),
-        0 40px 80px rgba(0,0,0,0.6);
+    .tile {
       position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.028);
     }
-    .about-photo img {
+    .tile:hover { border-color: rgba(255,255,255,0.14); }
+    .tile-bio { grid-area: bio; padding: 44px; }
+    .tile-bio .section-title { font-size: clamp(32px, 3.6vw, 50px); margin-bottom: 28px; }
+    .tile-photo {
+      grid-area: photo;
+      margin: 0;
+      padding: 0;
+      min-height: 260px;
+      border-color: rgba(255,107,0,0.22);
+      box-shadow: 0 0 50px rgba(255,107,0,0.12);
+    }
+    .tile-photo img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .tile-now {
+      grid-area: now;
+      justify-content: space-between;
+      border-color: rgba(0,200,150,0.22);
+      background: linear-gradient(160deg, rgba(0,200,150,0.13) 0%, rgba(255,255,255,0.02) 65%);
+    }
+    .tile-now, .tile-world { gap: 22px; }
+    .tile-lang { grid-area: lang; }
+    .tile-world { grid-area: world; justify-content: space-between; }
+    .tile-motto {
+      grid-area: motto;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 32px 40px;
+      border-color: rgba(255,107,0,0.2);
+      background: linear-gradient(90deg, rgba(255,107,0,0.11) 0%, rgba(255,255,255,0.02) 60%);
+    }
+    .tile-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .tile-big {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(26px, 2.4vw, 34px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: #fff;
+    }
+    .tile-sub {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+    }
+    .tile-meta {
+      display: block;
+      margin-top: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--green);
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+      0%   { box-shadow: 0 0 0 0 rgba(0,200,150,0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(0,200,150,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,200,150,0); }
+    }
+    .lang-meter {
+      list-style: none;
+      display: grid;
+      gap: 15px;
+      margin-top: 22px;
+    }
+    .lang-meter li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      row-gap: 7px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+    .lang-meter em {
+      font-style: normal;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .meter {
+      grid-column: 1 / -1;
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .meter i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--orange), var(--green));
+      transform: scaleX(var(--v));
+      transform-origin: left;
+      transition: transform 1.4s var(--ease) 0.3s;
+    }
+    .js .tile:not(.visible) .meter i { transform: scaleX(0); }
+    .country-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .country-chips span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 5px 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.75);
+    }
+    .about-motto {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(18px, 2vw, 24px);
+      font-style: italic;
+      line-height: 1.45;
+      color: #fff;
+      border-left: 2px solid var(--orange);
+      padding-left: 22px;
     }
 
     /* ============================================================
@@ -508,6 +608,7 @@
       position: relative;
       padding: 130px 48px;
       overflow: hidden;
+      overflow: clip;   /* clip, not hidden: keeps the mission rail sticky */
     }
     #experience::before {
       content: '';
@@ -1076,6 +1177,412 @@
     .footer a:hover { color: var(--orange); }
 
     /* ============================================================
+       CLIENTS MARQUEE
+    ============================================================ */
+    .clients {
+      position: relative;
+      padding: 8px 0 36px;
+      background: #000;
+      overflow: hidden;
+    }
+    .clients-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 20px;
+    }
+    .marquee {
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 48s linear infinite;
+    }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-list {
+      display: flex;
+      flex-shrink: 0;
+      list-style: none;
+    }
+    .marquee-list li {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(28px, 4.2vw, 58px);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+      transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+    }
+    .marquee-list li::after {
+      content: '✦';
+      margin: 0 0.9em;
+      font-size: 0.38em;
+      color: var(--orange);
+      -webkit-text-stroke: 0;
+    }
+    .marquee-list li:hover { color: #fff; -webkit-text-stroke-color: transparent; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ============================================================
+       MISSION LOG (sticky constellation rail next to the cards)
+    ============================================================ */
+    .exp-kpis { margin-bottom: 26px; }
+    .exp-desc { margin-bottom: 0; }
+    .exp-desc.clamped {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .exp-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 12px;
+      padding: 0;
+      border: 0;
+      background: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--orange);
+    }
+    .exp-more[hidden] { display: none; }
+    .exp-more::after { content: '↓'; transition: transform 0.3s var(--ease); }
+    .exp-more[aria-expanded="true"]::after { transform: rotate(180deg); }
+    .exp-card.green-top .exp-more { color: var(--green); }
+    .exp-card.flash {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 0 1px rgba(255,107,0,0.25), 0 0 60px rgba(255,107,0,0.12);
+    }
+    @media (min-width: 901px) {
+      .exp-layout {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 56px;
+        align-items: start;
+      }
+      .career-rail { position: sticky; top: 120px; }
+      .career-bar {
+        position: relative;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+      }
+      .career-bar::before,
+      .career-bar::after {
+        content: '';
+        position: absolute;
+        left: 11px;
+        top: 24px;
+        width: 2px;
+        border-radius: 2px;
+        transform: translateX(-50%);
+      }
+      .career-bar::before { bottom: 24px; background: rgba(255,255,255,0.08); }
+      .career-bar::after {
+        height: calc((100% - 48px) * var(--progress, 0));
+        background: linear-gradient(to bottom, var(--green), var(--orange));
+        box-shadow: 0 0 12px rgba(255,107,0,0.35);
+      }
+      .career-connector { display: none; }
+      .career-node {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        grid-template-areas: "dot year" "dot role";
+        column-gap: 16px;
+        align-items: center;
+        min-width: 0;
+        padding: 13px 0;
+        z-index: 1;
+      }
+      .cn-dot { grid-area: dot; justify-self: center; }
+      .career-node:not(.hl):not(.curr) .cn-dot { background: #1c0f06; }
+      .cn-year { grid-area: year; margin: 0; }
+      .cn-role { grid-area: role; margin: 3px 0 0; text-align: left; }
+      .career-node.is-active .cn-role { color: #fff; }
+      .career-node.is-active .cn-dot { transform: scale(1.3); box-shadow: 0 0 0 6px rgba(255,255,255,0.06), 0 0 18px var(--orange-glow); }
+    }
+
+    /* ============================================================
+       SPOTLIGHT (cards light up under the cursor, like the hero sky)
+    ============================================================ */
+    .spot { position: relative; }
+    .spot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(255,140,60,0.09), transparent 45%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .spot:hover::after { opacity: 1; }
+
+    /* ============================================================
+       CONTACT COMPOSER (pick a topic, get a pre-filled email)
+    ============================================================ */
+    .contact-ask {
+      margin: -18px 0 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(15px, 1.6vw, 19px);
+      color: rgba(255,255,255,0.6);
+    }
+    .intent-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+    .chip {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 11px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.72);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .chip:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
+    .chip.active { color: #000; background: #fff; border-color: #fff; }
+    .compose {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-lg { font-size: 16px; padding: 18px 36px; }
+    .btn-arrow { transition: transform 0.3s var(--ease); }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+    .compose-preview { font-size: 12.5px; color: rgba(255,255,255,0.4); }
+    .compose-preview strong { font-weight: 500; color: rgba(255,255,255,0.78); }
+    .contact-or {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 40px 0 16px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .contact-or::before,
+    .contact-or::after { content: ''; width: 60px; height: 1px; background: rgba(255,255,255,0.12); }
+    .contact-actions .contact-email-pill { font-size: clamp(14px, 1.6vw, 17px); padding: 12px 30px; }
+
+    /* ============================================================
+       COMMAND PALETTE (Ctrl/Cmd + K) + TOAST + SCROLL PROGRESS
+    ============================================================ */
+    .scroll-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--green));
+      transform-origin: left;
+      transform: scaleX(var(--p, 0));
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .site-header.scrolled .scroll-progress { opacity: 1; }
+    .cmdk-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 7px 0 12px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.65);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .cmdk-btn:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+    kbd {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      font-weight: 500;
+      line-height: 1;
+      color: rgba(255,255,255,0.55);
+      padding: 3px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+    }
+    .cmdk[hidden] { display: none; }
+    .cmdk {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 14vh 16px 16px;
+    }
+    .cmdk-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .cmdk-panel {
+      position: relative;
+      width: min(620px, 100%);
+      max-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(14,14,20,0.94);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(80,110,255,0.08);
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+    .cmdk.open .cmdk-backdrop { opacity: 1; }
+    .cmdk.open .cmdk-panel { opacity: 1; transform: none; }
+    .cmdk-search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+    }
+    .cmdk-search input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: none;
+      background: none;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+    }
+    .cmdk-search input::placeholder { color: rgba(255,255,255,0.35); }
+    .cmdk-list { overflow-y: auto; overscroll-behavior: contain; padding: 8px; }
+    .cmdk-group {
+      padding: 12px 10px 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .cmdk-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+    .cmdk-item.active { background: rgba(255,107,0,0.12); color: #fff; }
+    .cmdk-icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.7);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .cmdk-item.active .cmdk-icon { background: var(--orange); color: #000; }
+    .cmdk-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cmdk-hint { font-size: 12px; color: rgba(255,255,255,0.35); white-space: nowrap; }
+    .cmdk-empty { padding: 28px 12px; text-align: center; font-size: 14px; color: rgba(255,255,255,0.45); }
+    .cmdk-foot {
+      display: flex;
+      gap: 18px;
+      padding: 10px 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.4);
+    }
+    .cmdk-foot kbd { margin-right: 3px; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      z-index: 10002;
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(0,200,150,0.35);
+      background: rgba(14,14,20,0.95);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translate(-50%, 20px);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s var(--ease);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1024px) {
+      .bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+          "bio   bio"
+          "photo now"
+          "lang  world"
+          "motto motto";
+      }
+    }
+    @media (max-width: 900px) {
+      .cmdk-btn { width: 40px; height: 40px; padding: 0; justify-content: center; }
+      .cmdk-btn-label, .cmdk-btn kbd { display: none; }
+      .header-actions { gap: 8px; }
+      .cmdk { padding-top: 9vh; }
+      .cmdk-foot { display: none; }
+    }
+    @media (max-width: 768px) {
+      .bento {
+        grid-template-columns: 1fr;
+        grid-template-areas: "photo" "bio" "now" "lang" "world" "motto";
+      }
+      .tile-photo { min-height: 320px; }
+      .tile-bio { padding: 30px 22px; }
+      .tile-motto { flex-direction: column; align-items: flex-start; padding: 28px 22px; }
+    }
+    @media (max-width: 380px) {
+      .cmdk-btn { display: none; }
+    }
+
+    /* ============================================================
        SCROLL ANIMATIONS (only when JS runs, so content never stays hidden)
     ============================================================ */
     .js .fade-up,
@@ -1160,6 +1667,11 @@
     <a href="#contact" data-key="nav_contact">Contact</a>
   </nav>
   <div class="header-actions">
+    <button class="cmdk-btn" id="cmdk-open" type="button" aria-label="Search" aria-haspopup="dialog">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="cmdk-btn-label" data-key="cmdk_btn">Search</span>
+      <kbd class="cmdk-kbd">Ctrl K</kbd>
+    </button>
     <div class="lang-switcher" role="group" aria-label="Language">
       <button class="lang-btn active" type="button" data-lang="en" lang="en" title="English">EN</button>
       <button class="lang-btn" type="button" data-lang="fr" lang="fr" title="Français">FR</button>
@@ -1167,6 +1679,7 @@
     </div>
     <button class="menu-btn" id="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
   </div>
+  <span class="scroll-progress" aria-hidden="true"></span>
 </header>
 
 <!-- ============================================================
@@ -1184,7 +1697,7 @@
     <div class="hero-welcome-title" data-key="hero_welcome">Welcome.</div>
     <div class="hero-welcome-sub" data-key="hero_sub">let's get acquainted</div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="mailto:cames.sacha@gmail.com" data-key="hero_cta_contact">Contact me</a>
+      <a class="btn btn-primary" href="#contact" data-key="hero_cta_contact">Contact me</a>
       <a class="btn btn-ghost" href="#experience" data-key="hero_cta_journey">View my journey</a>
     </div>
   </div>
@@ -1195,29 +1708,60 @@
   </a>
 </section>
 
+<!-- CLIENTS MARQUEE -->
+<div class="clients">
+  <p class="clients-label" data-key="clients_label">Trusted by</p>
+  <div class="marquee">
+    <div class="marquee-track">
+      <ul class="marquee-list"><li>Kering</li><li>Altavia</li><li>BNP Paribas</li><li>Capgemini</li><li>Julhiet Sterwen</li><li>Gireve</li><li>Bayard</li><li>Proprioo</li></ul>
+      <ul class="marquee-list" aria-hidden="true"><li>Kering</li><li>Altavia</li><li>BNP Paribas</li><li>Capgemini</li><li>Julhiet Sterwen</li><li>Gireve</li><li>Bayard</li><li>Proprioo</li></ul>
+    </div>
+  </div>
+</div>
+
 <!-- ============================================================
      SECTION 2 · ABOUT
 ============================================================ -->
 <section id="about">
   <div class="about-inner">
-    <div class="fade-left">
-      <span class="section-label" data-key="about_label">Who I am</span>
-      <h2 class="section-title" data-key="about_h2">Building what's<br>missing.</h2>
-      <p class="about-bio" data-key="about_p1">I'm a multilingual manager with over five years of experience in consulting, leading high-impact international projects, organizational restructurings, and business transformation initiatives. Fluent in four languages, bilingual in French and Italian, and deeply connected to their cultures, I'm used to navigating complex, multicultural environments with both strategic vision and pragmatism.</p>
-      <p class="about-bio" data-key="about_p2">I'm driven by creativity, ambition, adaptability, and a strong sense of execution, turning ideas into concrete results.</p>
-      <blockquote class="about-motto">"Live in the future, then build what's missing."</blockquote>
-      <p class="about-cta" data-key="about_cta">Let's build it together!</p>
-      <div class="lang-badges">
-        <div class="lang-badge"><span data-key="lang_it">Italian</span> <span class="level" data-key="native">Native</span></div>
-        <div class="lang-badge"><span data-key="lang_fr">French</span> <span class="level" data-key="native">Native</span></div>
-        <div class="lang-badge"><span data-key="lang_en">English</span> <span class="level">C1</span></div>
-        <div class="lang-badge"><span data-key="lang_es">Spanish</span> <span class="level">C1</span></div>
-      </div>
-    </div>
-    <div class="about-photo-wrap fade-right" style="transition-delay:0.18s">
-      <div class="about-photo">
+    <div class="bento">
+      <article class="tile tile-bio spot fade-up">
+        <span class="section-label" data-key="about_label">Who I am</span>
+        <h2 class="section-title" data-key="about_h2">Building what's<br>missing.</h2>
+        <p class="about-bio" data-key="about_p1">I'm a multilingual manager with over five years of experience in consulting, leading high-impact international projects, organizational restructurings, and business transformation initiatives. Fluent in four languages, bilingual in French and Italian, and deeply connected to their cultures, I'm used to navigating complex, multicultural environments with both strategic vision and pragmatism.</p>
+        <p class="about-bio" data-key="about_p2">I'm driven by creativity, ambition, adaptability, and a strong sense of execution, turning ideas into concrete results.</p>
+      </article>
+      <figure class="tile tile-photo fade-up" style="transition-delay:0.08s">
         <img src="assets/images/photo.webp" alt="Sacha Cames" width="410" height="410" loading="lazy" decoding="async">
-      </div>
+      </figure>
+      <article class="tile tile-now spot fade-up" style="transition-delay:0.16s">
+        <span class="tile-kicker"><span class="live-dot"></span><span data-key="now_label">Currently</span></span>
+        <div>
+          <strong class="tile-big">Manager</strong>
+          <span class="tile-sub">Julhiet Sterwen × Altavia</span>
+          <span class="tile-meta" data-key="now_since">Since May 2026</span>
+        </div>
+      </article>
+      <article class="tile tile-lang spot fade-up" style="transition-delay:0.12s">
+        <span class="tile-kicker" data-key="lang_label">Languages</span>
+        <ul class="lang-meter">
+          <li><span data-key="lang_it">Italian</span><em data-key="native">Native</em><span class="meter"><i style="--v:1"></i></span></li>
+          <li><span data-key="lang_fr">French</span><em data-key="native">Native</em><span class="meter"><i style="--v:1"></i></span></li>
+          <li><span data-key="lang_en">English</span><em>C1</em><span class="meter"><i style="--v:0.85"></i></span></li>
+          <li><span data-key="lang_es">Spanish</span><em>C1</em><span class="meter"><i style="--v:0.85"></i></span></li>
+        </ul>
+      </article>
+      <article class="tile tile-world spot fade-up" style="transition-delay:0.2s">
+        <span class="tile-kicker" data-key="world_label">Programs led across</span>
+        <div>
+          <strong class="tile-big">7 <span data-key="world_countries">countries</span></strong>
+          <div class="country-chips"><span>FR</span><span>UK</span><span>DE</span><span>ES</span><span>IT</span><span>PT</span><span>CZ</span></div>
+        </div>
+      </article>
+      <article class="tile tile-motto spot fade-up" style="transition-delay:0.1s">
+        <blockquote class="about-motto">"Live in the future, then build what's missing."</blockquote>
+        <a class="btn btn-primary" href="#contact"><span data-key="about_cta">Let's build it together!</span><span class="btn-arrow" aria-hidden="true">→</span></a>
+      </article>
     </div>
   </div>
 </section>
@@ -1232,7 +1776,8 @@
       <h2 class="section-title" data-key="exp_title">Experience</h2>
     </div>
 
-    <!-- Career evolution bar -->
+    <div class="exp-layout">
+    <aside class="career-rail">
     <div class="career-bar fade-up" style="transition-delay:0.1s">
       <a class="career-node" href="#exp-bayard">
         <div class="cn-year">2020</div>
@@ -1270,11 +1815,12 @@
         <div class="cn-role">Manager<br>JS × Altavia</div>
       </a>
     </div>
+    </aside>
 
     <div class="exp-cards">
 
       <!-- Julhiet Sterwen / Altavia -->
-      <div class="exp-card fade-up" id="exp-altavia">
+      <div class="exp-card spot fade-up" id="exp-altavia">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Manager</div>
@@ -1287,7 +1833,6 @@
             <img src="assets/logos/altavia.png" alt="Altavia" class="exp-logo exp-logo-keep" style="height:44px;" loading="lazy" decoding="async">
           </div>
         </div>
-        <p class="exp-desc" data-key="exp1_desc">Design and rollout of an AI data cleaning and data visualization tool and agents for the group's 50 entities: business needs framing, development with Claude Code and Google automations. 30,000 client records processed, covering €1B in revenue. Program Manager of the dematerialization program, steering a portfolio of 19 projects: governance, stakeholder coordination and Copil / Comex facilitation with the CEO, CFO, CIO and COO. Co-construction of the 2 to 5 year strategic transformation roadmap with the Transformation Director: initiative prioritization, resource projection and project portfolio structuring. Account development and management of a team of 5 consultants, with an allocation strategy optimizing capacity, resources and organization.</p>
         <div class="exp-kpis">
           <div class="kpi">
             <div class="kpi-val counter" data-target="19">0</div>
@@ -1310,10 +1855,12 @@
             <div class="kpi-lbl" data-key="kpi_consultants">Consultants managed</div>
           </div>
         </div>
+        <p class="exp-desc" data-key="exp1_desc">Design and rollout of an AI data cleaning and data visualization tool and agents for the group's 50 entities: business needs framing, development with Claude Code and Google automations. 30,000 client records processed, covering €1B in revenue. Program Manager of the dematerialization program, steering a portfolio of 19 projects: governance, stakeholder coordination and Copil / Comex facilitation with the CEO, CFO, CIO and COO. Co-construction of the 2 to 5 year strategic transformation roadmap with the Transformation Director: initiative prioritization, resource projection and project portfolio structuring. Account development and management of a team of 5 consultants, with an allocation strategy optimizing capacity, resources and organization.</p>
+        <button class="exp-more" type="button" aria-expanded="false">Read more</button>
       </div>
 
       <!-- Julhiet Sterwen · Manager / Kering -->
-      <div class="exp-card fade-up" id="exp-kering" style="transition-delay:0.05s">
+      <div class="exp-card spot fade-up" id="exp-kering" style="transition-delay:0.05s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Manager</div>
@@ -1326,14 +1873,13 @@
             <img src="assets/logos/kering.png" alt="Kering" class="exp-logo exp-logo-invert" style="height:38px;" loading="lazy" decoding="async">
           </div>
         </div>
-        <p class="exp-desc" data-key="exp2_desc">MDM team management (6 people) and project team coordination (300+ stakeholders). Migration of 5,000+ vendors at a pace of ~1,000/month. Management of +€1B in transaction volumes. Data strategy management for the acquisition of Kering Beauté by L'Oréal. End-to-end MDM process structuring and data quality automation via Power Query. SAP ↔ JDE interface activation, production release management, TOM definition and IS transformation.</p>
         <div class="exp-kpis">
           <div class="kpi">
             <div class="kpi-val counter" data-target="5000" data-suffix="+">0</div>
             <div class="kpi-lbl" data-key="kpi_vendors">Vendors migrated</div>
           </div>
           <div class="kpi">
-            <div class="kpi-val counter" data-target="1000" data-suffix-key="suffix_month">0</div>
+            <div class="kpi-val counter" data-target="1000" data-suffix="+">0</div>
             <div class="kpi-lbl" data-key="kpi_pace">Monthly pace</div>
           </div>
           <div class="kpi">
@@ -1349,10 +1895,12 @@
             <div class="kpi-lbl" data-key="kpi_transactions">Transactions managed</div>
           </div>
         </div>
+        <p class="exp-desc" data-key="exp2_desc">MDM team management (6 people) and project team coordination (300+ stakeholders). Migration of 5,000+ vendors at a pace of ~1,000/month. Management of +€1B in transaction volumes. Data strategy management for the acquisition of Kering Beauté by L'Oréal. End-to-end MDM process structuring and data quality automation via Power Query. SAP ↔ JDE interface activation, production release management, TOM definition and IS transformation.</p>
+        <button class="exp-more" type="button" aria-expanded="false">Read more</button>
       </div>
 
       <!-- Julhiet Sterwen · Senior Consultant / Gireve -->
-      <div class="exp-card fade-up" id="exp-gireve" style="transition-delay:0.1s">
+      <div class="exp-card spot fade-up" id="exp-gireve" style="transition-delay:0.1s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Senior Consultant</div>
@@ -1365,7 +1913,6 @@
             <img src="assets/logos/gireve.png" alt="Gireve" class="exp-logo exp-logo-keep" style="height:32px;" loading="lazy" decoding="async">
           </div>
         </div>
-        <p class="exp-desc" data-key="exp3_desc">Right-hand to the CEO: full IS overhaul (new CTO, Enterprise Architect, automated testing pipeline), process redesign, and organizational transformation. Strategic responsibility across the entire company transformation initiative.</p>
         <div class="exp-kpis">
           <div class="kpi">
             <div class="kpi-val">-20%</div>
@@ -1376,10 +1923,12 @@
             <div class="kpi-lbl" data-key="kpi_is">IS overhaul</div>
           </div>
         </div>
+        <p class="exp-desc" data-key="exp3_desc">Right-hand to the CEO: full IS overhaul (new CTO, Enterprise Architect, automated testing pipeline), process redesign, and organizational transformation. Strategic responsibility across the entire company transformation initiative.</p>
+        <button class="exp-more" type="button" aria-expanded="false">Read more</button>
       </div>
 
       <!-- Capgemini · BNP -->
-      <div class="exp-card green-top fade-up" id="exp-capgemini" style="transition-delay:0.15s">
+      <div class="exp-card green-top spot fade-up" id="exp-capgemini" style="transition-delay:0.15s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge">Consultant</div>
@@ -1391,7 +1940,6 @@
             <img src="assets/logos/capgemini.svg" alt="Capgemini" class="exp-logo" style="height:44px; filter:none; opacity:0.9;" loading="lazy" decoding="async">
           </div>
         </div>
-        <p class="exp-desc" data-key="exp4_desc">Led 3 major international transformation programs across FR, UK, DE, ES, IT, PT, CZ. Deployed a logistics asset management platform (−5 days of storage), an AI customer experience tool, and an inventory management system. Governed Agile/Scrum projects end-to-end: epics, user stories, sprint planning and review, Copil & Steerco management.</p>
         <div class="exp-kpis">
           <div class="kpi">
             <div class="kpi-val counter" data-target="10" data-suffix="M€">0</div>
@@ -1410,10 +1958,12 @@
             <div class="kpi-lbl" data-key="kpi_per">per country/year</div>
           </div>
         </div>
+        <p class="exp-desc" data-key="exp4_desc">Led 3 major international transformation programs across FR, UK, DE, ES, IT, PT, CZ. Deployed a logistics asset management platform (−5 days of storage), an AI customer experience tool, and an inventory management system. Governed Agile/Scrum projects end-to-end: epics, user stories, sprint planning and review, Copil & Steerco management.</p>
+        <button class="exp-more" type="button" aria-expanded="false">Read more</button>
       </div>
 
       <!-- Bayard + Proprioo -->
-      <div class="exp-card fade-up" id="exp-bayard" style="transition-delay:0.2s">
+      <div class="exp-card spot fade-up" id="exp-bayard" style="transition-delay:0.2s">
         <div class="exp-card-head">
           <div>
             <div class="exp-badge" data-key="exp5_badge">Assistant → Project Manager</div>
@@ -1429,8 +1979,10 @@
           </div>
         </div>
         <p class="exp-desc" data-key="exp5_desc">Digital PM at Bayard media group (Sept. 2020 – Nov. 2021) and Assistant Digital PM at Proprioo real-estate startup (Jan. – Sept. 2020). Built solid foundations in digital project management and agile practices.</p>
+        <button class="exp-more" type="button" aria-expanded="false">Read more</button>
       </div>
 
+    </div>
     </div>
   </div>
 </section>
@@ -1451,7 +2003,7 @@
 
     <div class="creations-grid">
 
-      <a class="creation-card fade-up" href="https://iatrition-86290b74.base44.app/" target="_blank" rel="noopener noreferrer">
+      <a class="creation-card spot fade-up" href="https://iatrition-86290b74.base44.app/" target="_blank" rel="noopener noreferrer">
         <div class="card-shot">
           <img src="assets/screenshots/questionnaire-ia.webp" alt="AI Maturity" loading="lazy">
         </div>
@@ -1462,7 +2014,7 @@
         </div>
       </a>
 
-      <a class="creation-card fade-up" href="https://artscan.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
+      <a class="creation-card spot fade-up" href="https://artscan.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
         <div class="card-shot">
           <img src="assets/screenshots/artscan.webp" alt="ArtScan" loading="lazy">
         </div>
@@ -1473,7 +2025,7 @@
         </div>
       </a>
 
-      <a class="creation-card fade-up" href="https://sap-migration-tracker-71c19948.base44.app/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
+      <a class="creation-card spot fade-up" href="https://sap-migration-tracker-71c19948.base44.app/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
         <div class="card-shot">
           <img src="assets/screenshots/sap-migration.webp" alt="SAP Migration Tracker" loading="lazy">
         </div>
@@ -1484,7 +2036,7 @@
         </div>
       </a>
 
-      <a class="creation-card fade-up" href="https://monevio.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
+      <a class="creation-card spot fade-up" href="https://monevio.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
         <div class="card-shot">
           <img src="assets/screenshots/monevio.webp" alt="Monevio" loading="lazy">
         </div>
@@ -1495,7 +2047,7 @@
         </div>
       </a>
 
-      <a class="creation-card fade-up" href="https://traveliz.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
+      <a class="creation-card spot fade-up" href="https://traveliz.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
         <div class="card-shot">
           <img src="assets/screenshots/traveliz.webp" alt="Traveliz" loading="lazy">
         </div>
@@ -1506,7 +2058,7 @@
         </div>
       </a>
 
-      <div class="creation-card coming fade-up" style="transition-delay:0.24s">
+      <div class="creation-card coming spot fade-up" style="transition-delay:0.24s">
         <div class="card-shot">
           <div class="card-coming-ph">🔧</div>
         </div>
@@ -1587,7 +2139,19 @@
   <div class="contact-inner">
     <span class="section-label" style="text-align:center;" data-key="contact_label">Get in touch</span>
     <h2 class="contact-title fade-up" data-key="contact_title">Contact me.</h2>
-    <div class="contact-actions fade-up" style="transition-delay:0.12s">
+    <p class="contact-ask fade-up" data-key="contact_ask">What would you like to talk about?</p>
+    <div class="intent-chips fade-up" role="radiogroup" aria-label="Topic" style="transition-delay:0.06s">
+      <button class="chip active" type="button" role="radio" aria-checked="true" data-intent="mission" data-key="intent_mission">A consulting mission</button>
+      <button class="chip" type="button" role="radio" aria-checked="false" data-intent="job" data-key="intent_job">A job opportunity</button>
+      <button class="chip" type="button" role="radio" aria-checked="false" data-intent="project" data-key="intent_project">An AI or app project</button>
+      <button class="chip" type="button" role="radio" aria-checked="false" data-intent="hello" data-key="intent_hello">Just saying hi</button>
+    </div>
+    <div class="compose fade-up" style="transition-delay:0.12s">
+      <a class="btn btn-primary btn-lg" id="compose-btn" href="mailto:cames.sacha@gmail.com"><span data-key="compose_btn">Write to me</span><span class="btn-arrow" aria-hidden="true">→</span></a>
+      <p class="compose-preview"><span data-key="compose_subject">Subject:</span> <strong id="compose-subject">Consulting mission</strong></p>
+    </div>
+    <p class="contact-or fade-up" data-key="contact_or">or</p>
+    <div class="contact-actions fade-up">
       <a class="contact-email-pill" href="mailto:cames.sacha@gmail.com">cames.sacha@gmail.com</a>
       <button class="copy-btn" type="button" data-copy="cames.sacha@gmail.com">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -1602,6 +2166,25 @@
   </div>
 </section>
 
+<!-- COMMAND PALETTE -->
+<div class="cmdk" id="cmdk" hidden>
+  <div class="cmdk-backdrop" data-close></div>
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="cmdk-search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="cmdk-input" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list">
+      <kbd>esc</kbd>
+    </div>
+    <div class="cmdk-list" id="cmdk-list" role="listbox"></div>
+    <div class="cmdk-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> <span data-key="cmdk_foot_nav">navigate</span></span>
+      <span><kbd>↵</kbd> <span data-key="cmdk_foot_open">open</span></span>
+      <span><kbd>esc</kbd> <span data-key="cmdk_foot_close">close</span></span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <!-- ============================================================
      JAVASCRIPT
 ============================================================ -->
@@ -1613,6 +2196,41 @@ const i18n = {
     hero_sub: "let's get acquainted",
     hero_tagline: "Manager · Consultant · Builder",
     hero_scroll: "Scroll to explore",
+    cmdk_live: "Live app",
+    cmdk_btn: "Search",
+    cmdk_placeholder: "Search a mission, a skill, an app…",
+    cmdk_nav: "Go to",
+    cmdk_missions: "Missions",
+    cmdk_apps: "Creations",
+    cmdk_actions: "Actions",
+    cmdk_write: "Write me an email",
+    cmdk_copy: "Copy my email",
+    cmdk_copied: "Email copied",
+    cmdk_empty: "No results. Try “SAP”, “AI” or “Kering”.",
+    cmdk_foot_nav: "navigate",
+    cmdk_foot_open: "open",
+    cmdk_foot_close: "close",
+    clients_label: "Trusted by",
+    now_label: "Currently",
+    now_since: "Since May 2026",
+    lang_label: "Languages",
+    world_label: "Programs led across",
+    world_countries: "countries",
+    read_more: "Read more",
+    read_less: "Show less",
+    contact_ask: "What would you like to talk about?",
+    intent_mission: "A consulting mission",
+    intent_job: "A job opportunity",
+    intent_project: "An AI or app project",
+    intent_hello: "Just saying hi",
+    subj_mission: "Consulting mission",
+    subj_job: "Job opportunity",
+    subj_project: "AI or app project",
+    subj_hello: "Hello Sacha",
+    mail_body: "Hi Sacha,\n\n",
+    compose_btn: "Write to me",
+    compose_subject: "Subject:",
+    contact_or: "or",
     hero_cta_contact: "Contact me",
     hero_cta_journey: "View my journey",
     lang_it: "Italian",
@@ -1626,7 +2244,6 @@ const i18n = {
     exp5_badge: "Assistant → Project Manager",
     kpi_1b: "€1B",
     kpi_1b_plus: "+€1B",
-    suffix_month: "/mo+",
     contact_copy: "Copy",
     contact_copied: "Copied!",
     back_top: "Back to top ↑",
@@ -1698,6 +2315,41 @@ const i18n = {
     hero_sub: "faisons connaissance",
     hero_tagline: "Manager · Consultant · Créateur",
     hero_scroll: "Défiler pour explorer",
+    cmdk_live: "App en ligne",
+    cmdk_btn: "Rechercher",
+    cmdk_placeholder: "Chercher une mission, une compétence, une app…",
+    cmdk_nav: "Aller à",
+    cmdk_missions: "Missions",
+    cmdk_apps: "Réalisations",
+    cmdk_actions: "Actions",
+    cmdk_write: "M'écrire un e-mail",
+    cmdk_copy: "Copier mon e-mail",
+    cmdk_copied: "E-mail copié",
+    cmdk_empty: "Aucun résultat. Essayez « SAP », « IA » ou « Kering ».",
+    cmdk_foot_nav: "naviguer",
+    cmdk_foot_open: "ouvrir",
+    cmdk_foot_close: "fermer",
+    clients_label: "Ils m'ont fait confiance",
+    now_label: "Actuellement",
+    now_since: "Depuis mai 2026",
+    lang_label: "Langues",
+    world_label: "Programmes menés dans",
+    world_countries: "pays",
+    read_more: "Lire la suite",
+    read_less: "Réduire",
+    contact_ask: "De quoi voulez-vous parler ?",
+    intent_mission: "Une mission de conseil",
+    intent_job: "Une opportunité de poste",
+    intent_project: "Un projet IA ou d'app",
+    intent_hello: "Simplement dire bonjour",
+    subj_mission: "Mission de conseil",
+    subj_job: "Opportunité de poste",
+    subj_project: "Projet IA ou app",
+    subj_hello: "Bonjour Sacha",
+    mail_body: "Bonjour Sacha,\n\n",
+    compose_btn: "M'écrire",
+    compose_subject: "Objet :",
+    contact_or: "ou",
     hero_cta_contact: "Me contacter",
     hero_cta_journey: "Découvrir mon parcours",
     lang_it: "Italien",
@@ -1711,7 +2363,6 @@ const i18n = {
     exp5_badge: "Assistant → Chef de Projet",
     kpi_1b: "1Md€",
     kpi_1b_plus: "+1Md€",
-    suffix_month: "/mois+",
     contact_copy: "Copier",
     contact_copied: "Copié !",
     back_top: "Haut de page ↑",
@@ -1783,6 +2434,41 @@ const i18n = {
     hero_sub: "facciamo conoscenza",
     hero_tagline: "Manager · Consulente · Creatore",
     hero_scroll: "Scorri per esplorare",
+    cmdk_live: "App online",
+    cmdk_btn: "Cerca",
+    cmdk_placeholder: "Cerca una missione, una competenza, un'app…",
+    cmdk_nav: "Vai a",
+    cmdk_missions: "Missioni",
+    cmdk_apps: "Creazioni",
+    cmdk_actions: "Azioni",
+    cmdk_write: "Scrivimi un'email",
+    cmdk_copy: "Copia la mia email",
+    cmdk_copied: "Email copiata",
+    cmdk_empty: "Nessun risultato. Prova “SAP”, “IA” o “Kering”.",
+    cmdk_foot_nav: "naviga",
+    cmdk_foot_open: "apri",
+    cmdk_foot_close: "chiudi",
+    clients_label: "Mi hanno dato fiducia",
+    now_label: "Attualmente",
+    now_since: "Da maggio 2026",
+    lang_label: "Lingue",
+    world_label: "Programmi guidati in",
+    world_countries: "paesi",
+    read_more: "Leggi di più",
+    read_less: "Mostra meno",
+    contact_ask: "Di cosa vuoi parlare?",
+    intent_mission: "Una missione di consulenza",
+    intent_job: "Un'opportunità di lavoro",
+    intent_project: "Un progetto IA o app",
+    intent_hello: "Solo un saluto",
+    subj_mission: "Missione di consulenza",
+    subj_job: "Opportunità di lavoro",
+    subj_project: "Progetto IA o app",
+    subj_hello: "Ciao Sacha",
+    mail_body: "Ciao Sacha,\n\n",
+    compose_btn: "Scrivimi",
+    compose_subject: "Oggetto:",
+    contact_or: "oppure",
     hero_cta_contact: "Contattami",
     hero_cta_journey: "Scopri il mio percorso",
     lang_it: "Italiano",
@@ -1796,7 +2482,6 @@ const i18n = {
     exp5_badge: "Assistant → Project Manager",
     kpi_1b: "1Mld€",
     kpi_1b_plus: "+1Mld€",
-    suffix_month: "/mese+",
     contact_copy: "Copia",
     contact_copied: "Copiato!",
     back_top: "Torna su ↑",
@@ -1866,6 +2551,7 @@ const i18n = {
 };
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EMAIL = 'cames.sacha@gmail.com';
 
 /* ---- Language switcher (remembers the choice, else follows the browser) ---- */
 const LANGS = ['en', 'fr', 'it'];
@@ -1887,6 +2573,8 @@ function setLang(lang, remember) {
   document.querySelectorAll('.counter[data-counted]').forEach(el => {
     el.textContent = formatCounter(el, Number(el.dataset.value || 0));
   });
+  refreshMore();
+  updateComposer();
   if (remember) {
     try { localStorage.setItem('lang', lang); } catch (e) {}
   }
@@ -1907,7 +2595,11 @@ const header = document.getElementById('header');
 const menuBtn = document.getElementById('menu-btn');
 const navLinks = [...document.querySelectorAll('.nav a')];
 
-const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+const onScroll = () => {
+  header.classList.toggle('scrolled', window.scrollY > 24);
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  header.style.setProperty('--p', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+};
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
@@ -1936,8 +2628,7 @@ document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => fad
 
 /* ---- Counter animation (numbers follow the page language) ---- */
 function formatCounter(el, n) {
-  const suffix = el.dataset.suffixKey ? i18n[currentLang][el.dataset.suffixKey] : (el.dataset.suffix || '');
-  return n.toLocaleString(LOCALES[currentLang]) + suffix;
+  return n.toLocaleString(LOCALES[currentLang]) + (el.dataset.suffix || '');
 }
 
 function animateCounter(el) {
@@ -1967,7 +2658,7 @@ document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
 
 /* ---- Copy email ---- */
 document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) { return; }
+  if (!(await copyText(btn.dataset.copy))) return;
   const label = btn.querySelector('[data-key]');
   btn.classList.add('copied');
   label.textContent = i18n[currentLang].contact_copied;
@@ -2211,6 +2902,285 @@ document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('cl
   resize();
   still();
   start();
+})();
+
+/* ---- Toast + clipboard (with a fallback for older browsers / file://) ---- */
+const toastEl = document.getElementById('toast');
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastEl.hideTimer);
+  toastEl.hideTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+}
+async function copyText(value) {
+  try {
+    await navigator.clipboard.writeText(value);
+    return true;
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = value;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    return ok;
+  }
+}
+
+/* ---- Mission descriptions: 3 lines, then "read more" ---- */
+function refreshMore() {
+  document.querySelectorAll('.exp-more').forEach(btn => {
+    const desc = btn.previousElementSibling;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.textContent = i18n[currentLang][open ? 'read_less' : 'read_more'];
+    if (!open) {
+      desc.classList.add('clamped');
+      btn.hidden = desc.scrollHeight <= desc.clientHeight + 2;
+    }
+  });
+}
+document.querySelectorAll('.exp-more').forEach(btn => btn.addEventListener('click', () => {
+  const open = btn.getAttribute('aria-expanded') !== 'true';
+  btn.setAttribute('aria-expanded', open);
+  btn.previousElementSibling.classList.toggle('clamped', !open);
+  btn.textContent = i18n[currentLang][open ? 'read_less' : 'read_more'];
+}));
+let moreTimer;
+window.addEventListener('resize', () => { clearTimeout(moreTimer); moreTimer = setTimeout(refreshMore, 150); });
+if (document.fonts) document.fonts.ready.then(refreshMore);
+
+/* ---- Mission log: rail follows the cards (active mission + drawn progress line) ---- */
+(function missionLog() {
+  const bar = document.querySelector('.career-bar');
+  const wrap = document.querySelector('.exp-cards');
+  const nodes = [...bar.querySelectorAll('.career-node')];
+  const cardObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      nodes.forEach(n => n.classList.toggle('is-active', n.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  wrap.querySelectorAll('.exp-card').forEach(card => cardObs.observe(card));
+
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const r = wrap.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - r.top) / r.height));
+    bar.style.setProperty('--progress', p.toFixed(4));
+  };
+  window.addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
+})();
+
+function focusCard(card) {
+  card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  card.classList.add('flash');
+  setTimeout(() => card.classList.remove('flash'), 1600);
+}
+
+/* ---- Spotlight: cards glow where the cursor is ---- */
+document.addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  const el = e.target.closest && e.target.closest('.spot');
+  if (!el) return;
+  const r = el.getBoundingClientRect();
+  el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}, { passive: true });
+
+/* ---- Contact composer: the chosen topic pre-fills the email ---- */
+let composeIntent = 'mission';
+function updateComposer() {
+  const subject = i18n[currentLang]['subj_' + composeIntent];
+  document.getElementById('compose-subject').textContent = subject;
+  document.getElementById('compose-btn').href = 'mailto:' + EMAIL
+    + '?subject=' + encodeURIComponent(subject + ' · sachacames.com')
+    + '&body=' + encodeURIComponent(i18n[currentLang].mail_body);
+}
+document.querySelectorAll('.chip[data-intent]').forEach(chip => chip.addEventListener('click', () => {
+  composeIntent = chip.dataset.intent;
+  document.querySelectorAll('.chip[data-intent]').forEach(c => {
+    c.classList.toggle('active', c === chip);
+    c.setAttribute('aria-checked', c === chip);
+  });
+  updateComposer();
+}));
+
+/* ---- Command palette: Ctrl/Cmd + K to search missions, apps, actions ---- */
+(function commandPalette() {
+  const root = document.getElementById('cmdk');
+  const input = document.getElementById('cmdk-input');
+  const list = document.getElementById('cmdk-list');
+  const opener = document.getElementById('cmdk-open');
+  const isMac = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
+  document.querySelectorAll('.cmdk-kbd').forEach(k => { k.textContent = isMac ? '⌘K' : 'Ctrl K'; });
+
+  const svg = d => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const ICONS = {
+    go: svg('<path d="M5 12h14M13 6l6 6-6 6"/>'),
+    star: svg('<path d="M12 3l2.4 6.3L21 10l-5 4.4L17.5 21 12 17.3 6.5 21 8 14.4 3 10l6.6-.7z"/>'),
+    out: svg('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
+    mail: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
+    copy: svg('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>')
+  };
+  const GROUPS = ['cmdk_nav', 'cmdk_missions', 'cmdk_apps', 'cmdk_actions'];
+  const LANG_LABELS = { en: 'Read in English', fr: 'Lire en français', it: 'Leggi in italiano' };
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const text = el => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+  const t = key => i18n[currentLang][key];
+  let items = [], results = [], active = 0, lastFocus = null;
+
+  function siteLabel(href) {
+    const host = new URL(href).hostname.replace(/^www\./, '');
+    return host.split('.').length === 2 ? host : t('cmdk_live');
+  }
+
+  function goTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function buildItems() {
+    const sections = [['about', 'nav_about'], ['experience', 'nav_exp'], ['creations', 'nav_portfolio'], ['education', 'nav_edu'], ['contact', 'nav_contact']];
+    const nav = sections.map(([id, key]) => ({
+      group: 'cmdk_nav', icon: 'go', label: t(key),
+      search: id === 'education' ? text(document.querySelector('.edu-timeline')) : '',
+      run: () => goTo(id)
+    }));
+    const missions = [...document.querySelectorAll('.exp-card')].map(card => ({
+      group: 'cmdk_missions', icon: 'star',
+      label: text(card.querySelector('.exp-role')),
+      hint: text(card.querySelector('.exp-company')).replace(/^Julhiet Sterwen · /, ''),
+      search: text(card),
+      run: () => focusCard(card)
+    }));
+    const apps = [...document.querySelectorAll('.creation-card')].map(card => ({
+      group: 'cmdk_apps', icon: card.href ? 'out' : 'star',
+      label: text(card.querySelector('.card-name')),
+      hint: card.href ? siteLabel(card.href) : t('in_progress'),
+      search: text(card),
+      run: () => (card.href ? window.open(card.href, '_blank', 'noopener') : goTo('creations'))
+    }));
+    const actions = [
+      { group: 'cmdk_actions', icon: 'mail', label: t('cmdk_write'), hint: EMAIL, run: () => { location.href = 'mailto:' + EMAIL; } },
+      { group: 'cmdk_actions', icon: 'copy', label: t('cmdk_copy'), run: () => copyText(EMAIL).then(ok => ok && showToast(t('cmdk_copied'))) },
+      ...LANGS.filter(l => l !== currentLang).map(l => ({
+        group: 'cmdk_actions', icon: l, label: LANG_LABELS[l], search: 'language langue lingua', run: () => setLang(l, true)
+      }))
+    ];
+    items = [...nav, ...missions, ...apps, ...actions];
+  }
+
+  function filter(query) {
+    const tokens = norm(query).split(/\s+/).filter(Boolean);
+    if (!tokens.length) return items;
+    return items
+      .map((it, order) => {
+        const label = norm(it.label);
+        const hay = label + ' ' + norm(it.hint || '') + ' ' + norm(it.search || '');
+        if (!tokens.every(tok => hay.includes(tok))) return null;
+        const score = tokens.reduce((s, tok) => s + (label.startsWith(tok) ? 4 : label.includes(tok) ? 2 : 1), 0);
+        return { it, score, order };
+      })
+      .filter(Boolean)
+      .sort((a, b) => GROUPS.indexOf(a.it.group) - GROUPS.indexOf(b.it.group) || b.score - a.score || a.order - b.order)
+      .map(r => r.it);
+  }
+
+  function render() {
+    results = filter(input.value);
+    active = Math.min(active, Math.max(0, results.length - 1));
+    if (!results.length) {
+      list.innerHTML = `<p class="cmdk-empty">${t('cmdk_empty')}</p>`;
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
+    let html = '', group = '';
+    results.forEach((it, i) => {
+      if (it.group !== group) {
+        group = it.group;
+        html += `<div class="cmdk-group">${esc(t(group))}</div>`;
+      }
+      const icon = ICONS[it.icon] || esc(it.icon.toUpperCase());
+      html += `<div class="cmdk-item${i === active ? ' active' : ''}" role="option" id="cmdk-opt-${i}" data-i="${i}" aria-selected="${i === active}">`
+        + `<span class="cmdk-icon">${icon}</span><span class="cmdk-label">${esc(it.label)}</span>`
+        + (it.hint ? `<span class="cmdk-hint">${esc(it.hint)}</span>` : '') + '</div>';
+    });
+    list.innerHTML = html;
+    input.setAttribute('aria-activedescendant', 'cmdk-opt-' + active);
+  }
+
+  function setActive(i) {
+    active = (i + results.length) % results.length;
+    list.querySelectorAll('.cmdk-item').forEach(el => {
+      const on = Number(el.dataset.i) === active;
+      el.classList.toggle('active', on);
+      el.setAttribute('aria-selected', on);
+      if (on) el.scrollIntoView({ block: 'nearest' });
+    });
+    input.setAttribute('aria-activedescendant', 'cmdk-opt-' + active);
+  }
+
+  function open() {
+    if (!root.hidden) return;
+    setMenu(false);
+    buildItems();
+    lastFocus = document.activeElement;
+    input.value = '';
+    input.placeholder = t('cmdk_placeholder');
+    active = 0;
+    render();
+    root.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(() => root.classList.add('open'));
+    input.focus();
+  }
+  function close() {
+    if (root.hidden) return;
+    root.classList.remove('open');
+    document.documentElement.style.overflow = '';
+    setTimeout(() => { root.hidden = true; }, 220);
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  function run(it) {
+    if (!it) return;
+    close();
+    setTimeout(it.run, 30);
+  }
+
+  opener.addEventListener('click', open);
+  root.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) close(); });
+  input.addEventListener('input', () => { active = 0; render(); });
+  list.addEventListener('mousemove', e => {
+    const el = e.target.closest('.cmdk-item');
+    if (el && Number(el.dataset.i) !== active) setActive(Number(el.dataset.i));
+  });
+  list.addEventListener('click', e => {
+    const el = e.target.closest('.cmdk-item');
+    if (el) run(results[Number(el.dataset.i)]);
+  });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (results.length) setActive(active + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); if (results.length) setActive(active - 1); }
+    else if (e.key === 'Enter') { e.preventDefault(); run(results[active]); }
+    else if (e.key === 'Tab') { e.preventDefault(); }
+  });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (root.hidden) open(); else close();
+    } else if (e.key === 'Escape' && !root.hidden) {
+      close();
+    } else if (e.key === '/' && root.hidden && !/input|textarea/i.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      open();
+    }
+  });
 })();
 
 /* ---- Init ---- */
