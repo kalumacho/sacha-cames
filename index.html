@@ -385,15 +385,16 @@
       content: '';
       position: absolute;
       left: 0;
-      top: -40%;
+      top: 0;
       width: 1px;
       height: 40%;
       background: var(--orange);
+      transform: translateY(-100%);
       animation: scrollDrop 2.2s var(--ease) infinite;
     }
     @keyframes scrollDrop {
-      from { top: -40%; }
-      to   { top: 100%; }
+      from { transform: translateY(-100%); }
+      to   { transform: translateY(250%); }
     }
     @media (max-height: 640px) { .hero-scroll { display: none; } }
 
@@ -543,16 +544,24 @@
       color: var(--green);
     }
     .live-dot {
+      position: relative;
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: var(--green);
+    }
+    .live-dot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--green);
+      opacity: 0;
       animation: livePulse 2s infinite;
     }
     @keyframes livePulse {
-      0%   { box-shadow: 0 0 0 0 rgba(0,200,150,0.55); }
-      70%  { box-shadow: 0 0 0 10px rgba(0,200,150,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,200,150,0); }
+      0%        { transform: scale(1); opacity: 0.55; }
+      70%, 100% { transform: scale(3.5); opacity: 0; }
     }
     .lang-meter {
       list-style: none;
@@ -708,13 +717,21 @@
       box-shadow: 0 0 20px var(--green-glow), 0 0 40px rgba(0,200,150,0.15);
       width: 22px;
       height: 22px;
+    }
+    .career-node.curr .cn-dot::after {
+      content: '';
+      position: absolute;
+      inset: -2px;   /* match the dot's border box */
+      border-radius: 50%;
+      box-shadow: 0 0 32px rgba(0,200,150,0.42), 0 0 60px rgba(0,200,150,0.12);
+      opacity: 0;
       animation: currentPulse 2.5s infinite;
     }
     .career-node.curr .cn-role { color: var(--green); font-weight: 700; }
     .career-node.curr .cn-year { color: var(--green); }
     @keyframes currentPulse {
-      0%, 100% { box-shadow: 0 0 20px var(--green-glow), 0 0 40px rgba(0,200,150,0.15); }
-      50% { box-shadow: 0 0 32px rgba(0,200,150,0.6), 0 0 60px rgba(0,200,150,0.2); }
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
     .career-connector {
       flex: 1;
@@ -1283,6 +1300,7 @@
       border-color: var(--border-hover);
       box-shadow: 0 0 0 1px rgba(255,107,0,0.25), 0 0 60px rgba(255,107,0,0.12);
     }
+    .career-progress { display: none; }
     @media (min-width: 901px) {
       .exp-layout {
         display: grid;
@@ -1300,20 +1318,23 @@
         padding: 0;
       }
       .career-bar::before,
-      .career-bar::after {
-        content: '';
+      .career-progress {
         position: absolute;
         left: 11px;
         top: 24px;
+        bottom: 24px;
         width: 2px;
         border-radius: 2px;
         transform: translateX(-50%);
       }
-      .career-bar::before { bottom: 24px; background: rgba(255,255,255,0.08); }
-      .career-bar::after {
-        height: calc((100% - 48px) * var(--progress, 0));
+      .career-bar::before { content: ''; background: rgba(255,255,255,0.08); }
+      .career-progress {
+        display: block;
         background: linear-gradient(to bottom, var(--green), var(--orange));
         box-shadow: 0 0 12px rgba(255,107,0,0.35);
+        transform-origin: top;
+        transform: translateX(-50%) scaleY(0);   /* scaled by renderScroll(): no layout, no repaint */
+        will-change: transform;
       }
       .career-connector { display: none; }
       .career-node {
@@ -1332,6 +1353,7 @@
       .cn-role { grid-area: role; margin: 3px 0 0; text-align: left; }
       .career-node.is-active .cn-role { color: #fff; }
       .career-node.is-active .cn-dot { transform: scale(1.3); box-shadow: 0 0 0 6px rgba(255,255,255,0.06), 0 0 18px var(--orange-glow); }
+      .career-node.curr.is-active .cn-dot { box-shadow: 0 0 20px var(--green-glow), 0 0 40px rgba(0,200,150,0.15); }
     }
 
     /* ============================================================
@@ -1416,7 +1438,8 @@
       height: 2px;
       background: linear-gradient(90deg, var(--orange), var(--green));
       transform-origin: left;
-      transform: scaleX(var(--p, 0));
+      transform: scaleX(0);
+      will-change: transform;
       opacity: 0;
       transition: opacity 0.3s;
       pointer-events: none;
@@ -1797,6 +1820,7 @@
     <div class="exp-layout">
     <aside class="career-rail">
     <div class="career-bar fade-up" style="transition-delay:0.1s">
+      <span class="career-progress" aria-hidden="true"></span>
       <a class="career-node" href="#exp-bayard">
         <div class="cn-year">2020</div>
         <div class="cn-dot"></div>
@@ -1847,8 +1871,8 @@
             <div class="exp-period" data-key="exp1_period">May 2026 → Present</div>
           </div>
           <div class="exp-logos">
-            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;" loading="lazy" decoding="async">
-            <img src="assets/logos/altavia.png" alt="Altavia" class="exp-logo exp-logo-keep" style="height:44px;" loading="lazy" decoding="async">
+            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" width="2232" height="826" style="height:42px;" loading="lazy" decoding="async">
+            <img src="assets/logos/altavia.png" alt="Altavia" class="exp-logo exp-logo-keep" width="474" height="474" style="height:44px;" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="exp-kpis">
@@ -1887,8 +1911,8 @@
             <div class="exp-period" data-key="exp2_period">Nov. 2025 → May 2026</div>
           </div>
           <div class="exp-logos">
-            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;" loading="lazy" decoding="async">
-            <img src="assets/logos/kering.png" alt="Kering" class="exp-logo exp-logo-invert" style="height:38px;" loading="lazy" decoding="async">
+            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" width="2232" height="826" style="height:42px;" loading="lazy" decoding="async">
+            <img src="assets/logos/kering.png" alt="Kering" class="exp-logo exp-logo-invert" width="3840" height="1297" style="height:38px;" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="exp-kpis">
@@ -1927,8 +1951,8 @@
             <div class="exp-period">2024</div>
           </div>
           <div class="exp-logos">
-            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" style="height:42px;" loading="lazy" decoding="async">
-            <img src="assets/logos/gireve.png" alt="Gireve" class="exp-logo exp-logo-keep" style="height:32px;" loading="lazy" decoding="async">
+            <img src="assets/logos/julhiet-sterwen.png" alt="Julhiet Sterwen" class="exp-logo exp-logo-keep" width="2232" height="826" style="height:42px;" loading="lazy" decoding="async">
+            <img src="assets/logos/gireve.png" alt="Gireve" class="exp-logo exp-logo-keep" width="405" height="124" style="height:32px;" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="exp-kpis">
@@ -1955,7 +1979,7 @@
             <div class="exp-period" data-key="exp4_period">Sept. 2021 → Apr. 2025</div>
           </div>
           <div class="exp-logos">
-            <img src="assets/logos/capgemini.svg" alt="Capgemini" class="exp-logo" style="height:44px; filter:none; opacity:0.9;" loading="lazy" decoding="async">
+            <img src="assets/logos/capgemini.svg" alt="Capgemini" class="exp-logo" width="1024" height="239" style="height:44px; filter:none; opacity:0.9;" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="exp-kpis">
@@ -2023,7 +2047,7 @@
 
       <a class="creation-card spot fade-up" href="https://iatrition-86290b74.base44.app/" target="_blank" rel="noopener noreferrer">
         <div class="card-shot">
-          <img src="assets/screenshots/questionnaire-ia.webp" alt="AI Maturity" loading="lazy">
+          <img src="assets/screenshots/questionnaire-ia.webp" alt="AI Maturity" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-name">Maturité IA</div>
@@ -2034,7 +2058,7 @@
 
       <a class="creation-card spot fade-up" href="https://artscan.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
         <div class="card-shot">
-          <img src="assets/screenshots/artscan.webp" alt="ArtScan" loading="lazy">
+          <img src="assets/screenshots/artscan.webp" alt="ArtScan" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-name">ArtScan</div>
@@ -2045,7 +2069,7 @@
 
       <a class="creation-card spot fade-up" href="https://sap-migration-tracker-71c19948.base44.app/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
         <div class="card-shot">
-          <img src="assets/screenshots/sap-migration.webp" alt="SAP Migration Tracker" loading="lazy">
+          <img src="assets/screenshots/sap-migration.webp" alt="SAP Migration Tracker" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-name">SAP Migration Tracker</div>
@@ -2056,7 +2080,7 @@
 
       <a class="creation-card spot fade-up" href="https://monevio.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.08s">
         <div class="card-shot">
-          <img src="assets/screenshots/monevio.webp" alt="Monevio" loading="lazy">
+          <img src="assets/screenshots/monevio.webp" alt="Monevio" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-name">Monevio</div>
@@ -2067,7 +2091,7 @@
 
       <a class="creation-card spot fade-up" href="https://traveliz.fr/" target="_blank" rel="noopener noreferrer" style="transition-delay:0.16s">
         <div class="card-shot">
-          <img src="assets/screenshots/traveliz.webp" alt="Traveliz" loading="lazy">
+          <img src="assets/screenshots/traveliz.webp" alt="Traveliz" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-name">Traveliz</div>
@@ -2629,13 +2653,56 @@ const header = document.getElementById('header');
 const menuBtn = document.getElementById('menu-btn');
 const navLinks = [...document.querySelectorAll('.nav a')];
 
-const onScroll = () => {
-  header.classList.toggle('scrolled', window.scrollY > 24);
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  header.style.setProperty('--p', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
-};
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+/* Scroll-linked UI (header state, progress bar, mission rail). Geometry is measured
+   when the layout changes, never while scrolling, and the DOM is written at most
+   once per frame, so a scroll frame never has to wait for a reflow. */
+const progressBar = header.querySelector('.scroll-progress');
+const rail = document.querySelector('.career-bar');
+const railLine = rail.querySelector('.career-progress');
+const railCards = document.querySelector('.exp-cards');
+const geo = { stale: true, vh: 0, max: 0, top: 0, height: 0 };
+const drawn = { scrolled: null, page: '', rail: '' };
+let scrollFrame = 0;
+
+function measureScroll() {
+  const r = railCards.getBoundingClientRect();
+  geo.vh = window.innerHeight;
+  geo.max = document.documentElement.scrollHeight - geo.vh;
+  geo.top = r.top + window.scrollY;
+  geo.height = r.height;
+  geo.stale = false;
+}
+function renderScroll() {
+  scrollFrame = 0;
+  if (geo.stale) measureScroll();
+  const y = window.scrollY;
+  const scrolled = y > 24;
+  const page = geo.max > 0 ? Math.min(1, y / geo.max).toFixed(4) : '0';
+  const mission = geo.height > 0 ? Math.min(1, Math.max(0, (y + geo.vh * 0.5 - geo.top) / geo.height)).toFixed(4) : '0';
+  if (scrolled !== drawn.scrolled) {
+    drawn.scrolled = scrolled;
+    header.classList.toggle('scrolled', scrolled);
+  }
+  if (page !== drawn.page) {
+    drawn.page = page;
+    progressBar.style.transform = `scaleX(${page})`;
+  }
+  if (mission !== drawn.rail) {
+    drawn.rail = mission;
+    railLine.style.transform = `translateX(-50%) scaleY(${mission})`;
+  }
+}
+function queueScroll() {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(renderScroll);
+}
+function remeasureScroll() {
+  geo.stale = true;
+  queueScroll();
+}
+window.addEventListener('scroll', queueScroll, { passive: true });
+window.addEventListener('resize', remeasureScroll, { passive: true });
+new ResizeObserver(remeasureScroll).observe(document.body);   // fonts, language, expanded cards
+renderScroll();
 
 function setMenu(open) {
   header.classList.toggle('menu-open', open);
@@ -2661,8 +2728,12 @@ const fadeObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => fadeObserver.observe(el));
 
 /* ---- Counter animation (numbers follow the page language) ---- */
+const numberFormats = {};
+function numberFormat(lang) {
+  return numberFormats[lang] || (numberFormats[lang] = new Intl.NumberFormat(LOCALES[lang]));
+}
 function formatCounter(el, n) {
-  return n.toLocaleString(LOCALES[currentLang]) + (el.dataset.suffix || '');
+  return numberFormat(currentLang).format(n) + (el.dataset.suffix || '');
 }
 
 function animateCounter(el) {
@@ -2985,30 +3056,16 @@ let moreTimer;
 window.addEventListener('resize', () => { clearTimeout(moreTimer); moreTimer = setTimeout(refreshMore, 150); });
 if (document.fonts) document.fonts.ready.then(refreshMore);
 
-/* ---- Mission log: rail follows the cards (active mission + drawn progress line) ---- */
+/* ---- Mission log: rail highlights the mission in view (the progress line is drawn by renderScroll) ---- */
 (function missionLog() {
-  const bar = document.querySelector('.career-bar');
-  const wrap = document.querySelector('.exp-cards');
-  const nodes = [...bar.querySelectorAll('.career-node')];
+  const nodes = [...rail.querySelectorAll('.career-node')];
   const cardObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       nodes.forEach(n => n.classList.toggle('is-active', n.getAttribute('href') === '#' + e.target.id));
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
-  wrap.querySelectorAll('.exp-card').forEach(card => cardObs.observe(card));
-
-  let queued = false;
-  const update = () => {
-    queued = false;
-    const r = wrap.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - r.top) / r.height));
-    bar.style.setProperty('--progress', p.toFixed(4));
-  };
-  window.addEventListener('scroll', () => {
-    if (!queued) { queued = true; requestAnimationFrame(update); }
-  }, { passive: true });
-  update();
+  railCards.querySelectorAll('.exp-card').forEach(card => cardObs.observe(card));
 })();
 
 function focusCard(card) {
@@ -3217,6 +3274,7 @@ document.querySelectorAll('.chip[data-intent]').forEach(chip => chip.addEventLis
 
 /* ---- Init ---- */
 setLang(initialLang(), false);
+numberFormat(currentLang);   // build the counter formatter now rather than mid-scroll
 </script>
 </body>
 </html>
